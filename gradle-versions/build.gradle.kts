@@ -47,10 +47,10 @@ pluginBundle {
     vcsUrl = "https://github.com/markelliot/gradle-versions"
 
     description = "Creates a task that determines available dependency and plugin upgrades for a " +
-            "project and produces a YAML report. Additionally provides two tasks for updating the" +
-            "versions in a versions.props file (nebula.dependency-recommender or " +
-            "com.palantir.consistent-versions compatible) and updating plugin versions in Gradle" +
-            "plugin blocks."
+        "project and produces a YAML report. Additionally provides two tasks for updating the" +
+        "versions in a versions.props file (nebula.dependency-recommender or " +
+        "com.palantir.consistent-versions compatible) and updating plugin versions in Gradle" +
+        "plugin blocks."
 
     tags = listOf("versions")
 
