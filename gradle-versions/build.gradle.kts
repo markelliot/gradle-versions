@@ -57,7 +57,7 @@ pluginBundle {
     (plugins) {
         "versions" {
             displayName = "Version Update Plugin"
-            version = project.version
+            version = "${project.version}"
         }
     }
 }
