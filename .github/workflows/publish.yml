@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: ./gradlew --no-daemon build
       - name: Publish
-        run: ./gradlew --no-daemon publish publishPlugins -Pgradle.publish.key="$GRADLE_PUBLISH_KEY" -Pgradle.publish.secret="$GRADLE_SECRET_KEY"
+        run: ./gradlew --no-daemon publishPluginMavenPublicationToGitHubPackages publishPlugins -Pgradle.publish.key="$GRADLE_PUBLISH_KEY" -Pgradle.publish.secret="$GRADLE_SECRET_KEY"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}

@@ -3,7 +3,7 @@ import java.net.URI
 plugins {
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.16.0"
+    id("com.gradle.plugin-publish") version "0.18.0"
 }
 
 dependencies {
@@ -27,10 +27,6 @@ tasks.test {
     testLogging {
         events("passed", "skipped", "failed")
     }
-}
-
-java {
-    withSourcesJar()
 }
 
 gradlePlugin {
@@ -63,12 +59,6 @@ pluginBundle {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-        }
-    }
-
     repositories {
         maven {
             name = "GitHubPackages"
@@ -80,5 +70,3 @@ publishing {
         }
     }
 }
-
-tasks["publishLibraryPublicationToGitHubPackagesRepository"].enabled = System.getenv("GITHUB_ACTOR") != null
