@@ -24,8 +24,8 @@ jobs:
         run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
       - name: Create branch and commit changes
         run: |
-          git config --local user.email "markelliot+gradle@gmail.com"
           git config --local user.name "Version Updates"
+          git config --local user.email "markelliot@users.noreply.github.com"
           git checkout -B auto/versions
           git add .
           if [ -z "$(git status --porcelain)" ]; then
