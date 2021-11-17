@@ -31,7 +31,7 @@ jobs:
           git config --local user.name "Version Updates"
           git config --local user.email "markelliot@users.noreply.github.com"
           git commit -m "Auto-update dependencies and plugins"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PUSH_TO_REPO_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://markelliot:${{ secrets.GH_PUSH_TO_REPO_TOKEN }}@github.com/${{ github.repository }}
           git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
