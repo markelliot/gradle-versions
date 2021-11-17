@@ -25,12 +25,19 @@ jobs:
         run: |
           git checkout -B auto/versions
           git add .
+
+          # only commit if there are changes
           if [ -z "$(git status --porcelain)" ]; then
             exit 0
           fi
           git config --local user.name "Version Updates"
           git config --local user.email "markelliot@users.noreply.github.com"
           git commit -m "Auto-update dependencies and plugins"
+
+          # only push changes if different
+          if [ -n "$(git ls-remote --exit-code origin auto/versions)" && -z "$(git diff origin/auto/versions)" ]; then
+            exit 0
+          fi
           git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
