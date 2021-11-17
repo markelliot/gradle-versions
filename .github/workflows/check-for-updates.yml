@@ -24,8 +24,7 @@ jobs:
         run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
       - name: Create branch and commit changes
         run: |
-          git branch -D auto/versions
-          git checkout -b auto/versions
+          git checkout -B auto/versions
           git add .
           git commit -m "Auto-update dependencies and plugins"
       - name: pull-request
