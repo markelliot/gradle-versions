@@ -21,7 +21,9 @@ jobs:
       - name: Check for new versions
         run: ./gradlew --no-daemon checkNewVersions
       - name: Apply version updates
-        run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
+        run: ./gradlew --no-daemon updateVersionsProps updatePlugins
+      - name: Write lockfile
+        run: ./gradlew --no-daemon --write-locks
       - name: Create branch and commit changes
         run: |
           git config --local user.name "Version Updates"
