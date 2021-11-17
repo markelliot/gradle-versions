@@ -1,0 +1,31 @@
+name: Check for Dependency and Plugin Updates
+on:
+  schedule:
+    - cron: '0 0/6 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      pull-requests: write
+    env:
+      GH_READ_PACKAGES_TOKEN: ${{ secrets.GH_READ_PACKAGES_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Check for new versions
+        run: ./gradlew --no-daemon checkNewVersions
+      - name: Apply version updates
+        run: ./gradlew --no-daemon updateVersionsProps updatePlugins
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "develop"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_allow_empty: false
+          pr_title: "Version Updates"
+
