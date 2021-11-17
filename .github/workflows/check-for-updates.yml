@@ -8,7 +8,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     permissions: 
-      contents: read
+      contents: write
       pull-requests: write
     env:
       GH_READ_PACKAGES_TOKEN: ${{ secrets.GH_READ_PACKAGES_TOKEN }}
@@ -24,9 +24,12 @@ jobs:
         run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
       - name: Create branch and commit changes
         run: |
+          git config --local user.email "$(git log --format='%ae' HEAD^!)"
+          git config --local user.name "$(git log --format='%an' HEAD^!)
           git checkout -B auto/versions
           git add .
           git commit -m "Auto-update dependencies and plugins"
+          git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
