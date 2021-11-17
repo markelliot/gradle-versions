@@ -75,7 +75,7 @@ public final class VersionsProps {
     }
 
     public String writeToString() {
-        return lines.stream().map(Line::emit).collect(Collectors.joining("\n"));
+        return lines.stream().map(Line::emit).collect(Collectors.joining("\n")) + "\n";
     }
 
     public static VersionsProps from(File file) {
