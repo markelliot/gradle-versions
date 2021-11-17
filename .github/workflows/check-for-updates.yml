@@ -38,7 +38,7 @@ jobs:
         with:
           source_branch: "auto/versions"
           destination_branch: "develop"
-          github_token: ${{ GH_PUSH_TO_REPO_TOKEN }}
+          github_token: ${{ secrets.GH_PUSH_TO_REPO_TOKEN }}
           pr_allow_empty: false
           pr_title: "Version Updates"
 
