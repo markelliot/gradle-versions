@@ -7,10 +7,10 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    permissions: 
-      contents: read
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PUSH_TO_REPO_TOKEN }}
       - uses: actions/setup-java@v2
         with:
           java-version: '17'
@@ -31,7 +31,6 @@ jobs:
           git config --local user.name "Version Updates"
           git config --local user.email "markelliot@users.noreply.github.com"
           git commit -m "Auto-update dependencies and plugins"
-          git remote set-url origin https://markelliot:${{ secrets.GH_PUSH_TO_REPO_TOKEN }}@github.com/${{ github.repository }}
           git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
