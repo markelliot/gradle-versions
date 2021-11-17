@@ -28,8 +28,11 @@ jobs:
           git config --local user.name "$(git log --format='%an' HEAD^!)
           git checkout -B auto/versions
           git add .
+          if [ -z "$(git status --porcelain)" ]; then
+            exit 0
+          fi
           git commit -m "Auto-update dependencies and plugins"
-          git push origin -f auto/versions
+          git push github -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
