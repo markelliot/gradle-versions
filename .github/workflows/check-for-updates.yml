@@ -32,7 +32,8 @@ jobs:
             exit 0
           fi
           git commit -m "Auto-update dependencies and plugins"
-          git push github -f auto/versions
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
