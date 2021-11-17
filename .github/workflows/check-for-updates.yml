@@ -37,6 +37,7 @@ jobs:
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
+          source_branch: "auto/versions"
           destination_branch: "develop"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_allow_empty: false
