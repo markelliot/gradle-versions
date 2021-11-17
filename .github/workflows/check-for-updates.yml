@@ -5,7 +5,7 @@ on:
     - cron: '0 0/6 * * *'
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     permissions: 
       contents: read
@@ -21,7 +21,7 @@ jobs:
       - name: Check for new versions
         run: ./gradlew --no-daemon checkNewVersions
       - name: Apply version updates
-        run: ./gradlew --no-daemon updateVersionsProps updatePlugins
+        run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
