@@ -8,10 +8,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     permissions: 
-      contents: write
-      pull-requests: write
-    env:
-      GH_READ_PACKAGES_TOKEN: ${{ secrets.GH_READ_PACKAGES_TOKEN }}
+      contents: read
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
@@ -26,22 +23,22 @@ jobs:
         run: ./gradlew --no-daemon --write-locks
       - name: Create branch and commit changes
         run: |
-          git config --local user.name "Version Updates"
-          git config --local user.email "markelliot@users.noreply.github.com"
           git checkout -B auto/versions
           git add .
           if [ -z "$(git status --porcelain)" ]; then
             exit 0
           fi
+          git config --local user.name "Version Updates"
+          git config --local user.email "markelliot@users.noreply.github.com"
           git commit -m "Auto-update dependencies and plugins"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PUSH_TO_REPO_TOKEN }}@github.com/${{ github.repository }}
           git push origin -f auto/versions
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
           source_branch: "auto/versions"
           destination_branch: "develop"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ GH_PUSH_TO_REPO_TOKEN }}
           pr_allow_empty: false
           pr_title: "Version Updates"
 
