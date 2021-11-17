@@ -46,6 +46,9 @@ public class CheckNewVersionsTask extends DefaultTask {
     public static final String REPORT_DIRNAME = "com.markelliot.versions";
     public static final String REPORT_YML = "report.yml";
 
+    // TODO(markelliot): make these configurable
+    private static final Set<String> DISALLOWED_QUALIFIERS = Set.of("-alpha", "-beta", "-rc");
+
     @TaskAction
     public final void taskAction() throws IOException {
         Map<String, Set<DependencyUpdateRec>> updatesByConfig =
@@ -162,13 +165,17 @@ public class CheckNewVersionsTask extends DefaultTask {
 
     private void selectOnlyRelease(ComponentSelection sel) {
         String version = sel.getCandidate().getVersion();
-        if (version.contains("alpha") || version.contains("beta")) {
+        if (containsDisallowedQualifier(version)) {
             sel.reject("Component is 'alpha' or 'beta' qualified (version=" + version + ")");
         }
         String status = sel.getMetadata() != null ? sel.getMetadata().getStatus() : null;
         if (status != null && !status.equals("release")) {
             sel.reject("Component status '" + status + "' was not 'release'");
         }
+    }
+
+    private boolean containsDisallowedQualifier(String version) {
+        return DISALLOWED_QUALIFIERS.stream().anyMatch(version::contains);
     }
 
     private Configuration getResolvableCopy(Configuration config) {
