@@ -2,15 +2,10 @@ rootProject.name = "gradle-versions-root"
 
 include("gradle-versions")
 
+/* // for development/self-testing:
 pluginManagement {
     repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/markelliot/gradle-versions")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GH_READ_PACKAGES_TOKEN")
-            }
-        }
+        mavenLocal()
         gradlePluginPortal()
     }
 
@@ -22,3 +17,4 @@ pluginManagement {
         }
     }
 }
+*/
