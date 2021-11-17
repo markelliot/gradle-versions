@@ -1,4 +1,4 @@
-name: Check for Dependency and Plugin Updates
+name: Update Deps
 on:
   workflow_dispatch: {}
   schedule:
