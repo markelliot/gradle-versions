@@ -47,7 +47,8 @@ public class CheckNewVersionsTask extends DefaultTask {
     public static final String REPORT_YML = "report.yml";
 
     // TODO(markelliot): make these configurable
-    private static final Set<String> DISALLOWED_QUALIFIERS = Set.of("-alpha", "-beta", "-rc");
+    private static final Set<String> DISALLOWED_QUALIFIERS =
+            Set.of("-alpha", "-beta", "-ea", "-rc");
 
     @TaskAction
     public final void taskAction() throws IOException {
