@@ -22,6 +22,12 @@ jobs:
         run: ./gradlew --no-daemon checkNewVersions
       - name: Apply version updates
         run: ./gradlew --no-daemon updateVersionsProps updatePlugins --write-locks
+      - name: Create branch and commit changes
+        run: |
+          git branch -D auto/versions
+          git checkout -b auto/versions
+          git add .
+          git commit -m "Auto-update dependencies and plugins"
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
