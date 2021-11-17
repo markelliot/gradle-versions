@@ -156,10 +156,15 @@ public class CheckNewVersionsTask extends DefaultTask {
         getLogger().debug("Checking dependencies of config {}", config.getName());
         Set<Dependency> latestDepsForConfig =
                 currentVersions.keySet().stream()
-                        .map(key -> {
-                            getLogger().debug("{}: checking for newer {}", config.getName(), key);
-                            return getProject().getDependencies().create(key + ":+");
-                        })
+                        .map(
+                                key -> {
+                                    getLogger()
+                                            .debug(
+                                                    "{}: checking for newer {}",
+                                                    config.getName(),
+                                                    key);
+                                    return getProject().getDependencies().create(key + ":+");
+                                })
                         .collect(Collectors.toSet());
         resolvableLatest.getDependencies().clear();
         resolvableLatest.getDependencies().addAll(latestDepsForConfig);
