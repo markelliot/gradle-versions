@@ -153,9 +153,13 @@ public class CheckNewVersionsTask extends DefaultTask {
         resolvableLatest.resolutionStrategy(
                 strat -> strat.componentSelection(rules -> rules.all(this::selectOnlyRelease)));
 
+        getLogger().debug("Checking dependencies of config {}", config.getName());
         Set<Dependency> latestDepsForConfig =
                 currentVersions.keySet().stream()
-                        .map(key -> getProject().getDependencies().create(key + ":+"))
+                        .map(key -> {
+                            getLogger().debug("{}: checking for newer {}", config.getName(), key);
+                            return getProject().getDependencies().create(key + ":+");
+                        })
                         .collect(Collectors.toSet());
         resolvableLatest.getDependencies().clear();
         resolvableLatest.getDependencies().addAll(latestDepsForConfig);
@@ -180,7 +184,7 @@ public class CheckNewVersionsTask extends DefaultTask {
     }
 
     private Configuration getResolvableCopy(Configuration config) {
-        Configuration resolvableConfig = config.copyRecursive().setTransitive(false);
+        Configuration resolvableConfig = config.copyRecursive();
         resolvableConfig.setCanBeResolved(true);
         return resolvableConfig;
     }
