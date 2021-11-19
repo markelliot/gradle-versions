@@ -10,7 +10,7 @@ Apply this plugin using the standard Gradle plugin block:
 ```gradle
 plugins {
    // ...
-   id "com.markelliot.versions" version "0.1.0"
+   id "com.markelliot.versions" version "0.1.11"
 }
 ```
 
@@ -22,6 +22,8 @@ Run one of the available tasks:
   update is applied for that dependency.
 * `updatePlugins`: (root project only) merges all `report.yml`s and updates all buildscripts `plugins` blocks
   that declare a specific plugin version to use the recommended update.
+* `updateGradleWrapper`: (root project only) finds a `gradle-report.yml` and if one exists updates the Gradle
+  wrapper to point at the latest version's new distributionUrl.
 
 Caveats
 -------

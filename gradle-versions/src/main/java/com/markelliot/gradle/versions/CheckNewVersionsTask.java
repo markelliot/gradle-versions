@@ -16,16 +16,10 @@
 
 package com.markelliot.gradle.versions;
 
-import com.google.common.base.Preconditions;
 import com.jakewharton.nopen.annotation.Open;
 import com.markelliot.gradle.versions.api.DependencyUpdateRec;
 import com.markelliot.gradle.versions.api.ImmutableDependencyUpdateRec;
 import com.markelliot.gradle.versions.api.ImmutableUpdateReport;
-import com.markelliot.gradle.versions.api.SerDe;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,15 +37,18 @@ import org.gradle.api.tasks.TaskAction;
 
 @Open
 public class CheckNewVersionsTask extends DefaultTask {
-    public static final String REPORT_DIRNAME = "com.markelliot.versions";
-    public static final String REPORT_YML = "report.yml";
-
     // TODO(markelliot): make these configurable
     private static final Set<String> DISALLOWED_QUALIFIERS =
             Set.of("-alpha", "-beta", "-ea", "-rc");
 
     @TaskAction
-    public final void taskAction() throws IOException {
+    public final void taskAction() {
+        Set<DependencyUpdateRec> dependencyUpdates = getDependencyUpdates();
+        Set<DependencyUpdateRec> pluginUpdates = getPluginUpdates();
+        writeReports(dependencyUpdates, pluginUpdates);
+    }
+
+    private Set<DependencyUpdateRec> getDependencyUpdates() {
         Map<String, Set<DependencyUpdateRec>> updatesByConfig =
                 getProject().getConfigurations().stream()
                         // make safe for use with gradle-consistent-versions
@@ -70,8 +67,10 @@ public class CheckNewVersionsTask extends DefaultTask {
                     "Dependency upgrades available for project '" + getProject().getName() + "'");
             dependencyUpdates.forEach(rec -> System.out.println("   - " + render(rec)));
         }
+        return dependencyUpdates;
+    }
 
-        // Suggest upgrades for plugins
+    private Set<DependencyUpdateRec> getPluginUpdates() {
         Configuration pluginConfiguration =
                 getProject().getBuildscript().getConfigurations().getByName("classpath");
         Set<DependencyUpdateRec> pluginUpdates = getRecsForConfiguration(pluginConfiguration);
@@ -80,24 +79,18 @@ public class CheckNewVersionsTask extends DefaultTask {
                     "Plugin upgrades available for project '" + getProject().getName() + "'");
             pluginUpdates.forEach(upgrade -> System.out.println("- " + render(upgrade)));
         }
+        return pluginUpdates;
+    }
 
-        // emit report
-        File reportDir = new File(getProject().getBuildDir(), REPORT_DIRNAME);
-        Preconditions.checkState(
-                reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
-        File reportFile = new File(reportDir, REPORT_YML);
-        String reportContent =
-                SerDe.serialize(
-                        ImmutableUpdateReport.builder()
-                                .project(getProject().getPath())
-                                .addAllDependencyUpdates(dependencyUpdates)
-                                .addAllPluginUpdates(pluginUpdates)
-                                .build());
-        Files.writeString(
-                reportFile.toPath(),
-                reportContent,
-                StandardOpenOption.CREATE,
-                StandardOpenOption.TRUNCATE_EXISTING);
+    private void writeReports(
+            Set<DependencyUpdateRec> dependencyUpdates, Set<DependencyUpdateRec> pluginUpdates) {
+        Reports.writeUpdateReport(
+                getProject().getBuildDir(),
+                ImmutableUpdateReport.builder()
+                        .project(getProject().getPath())
+                        .addAllDependencyUpdates(dependencyUpdates)
+                        .addAllPluginUpdates(pluginUpdates)
+                        .build());
     }
 
     private static String render(DependencyUpdateRec detail) {

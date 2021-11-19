@@ -19,6 +19,7 @@ package com.markelliot.gradle.versions;
 import com.jakewharton.nopen.annotation.Open;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 
 @Open
 public class UpdateVersionsPlugin implements Plugin<Project> {
@@ -43,6 +44,17 @@ public class UpdateVersionsPlugin implements Plugin<Project> {
                     .create("updatePlugins", UpdatePluginsTask.class)
                     .setDescription(
                             "Uses result of checkNewVersions task to update buildscript plugin blocks");
+            project.getTasks()
+                    .create("updateGradleWrapper", UpdateGradleWrapperTask.class)
+                    .setDescription(
+                            "Uses result of checkNewGradleVersion to update Gradle wrapper");
+
+            Task gradleTask =
+                    project.getTasks()
+                            .create("checkNewGradleVersion", CheckNewGradleVersionTask.class);
+            gradleTask.setDescription(
+                    "Checks for and reports on existence of a new Gradle version");
+            project.getTasks().getByName("checkNewVersions").dependsOn(gradleTask);
         }
     }
 }

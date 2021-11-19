@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class SerDe {
+public final class YamlSerDe {
     private static final ObjectMapper mapper =
             new ObjectMapper(
                             new YAMLFactory()
@@ -41,7 +41,7 @@ public final class SerDe {
                     .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
                     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    private SerDe() {}
+    private YamlSerDe() {}
 
     public static <T> String serialize(T obj) {
         try {

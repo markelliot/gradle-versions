@@ -2,13 +2,10 @@ package com.markelliot.gradle.versions;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.jakewharton.nopen.annotation.Open;
-import com.markelliot.gradle.versions.api.SerDe;
 import com.markelliot.gradle.versions.api.UpdateReport;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,17 +29,14 @@ public class UpdatePluginsTask extends DefaultTask {
         List<UpdateReport> reports = new ArrayList<>();
         getProject()
                 .allprojects(
-                        proj -> {
-                            Path path =
-                                    Paths.get(
-                                            proj.getBuildDir().getPath(),
-                                            CheckNewVersionsTask.REPORT_DIRNAME,
-                                            CheckNewVersionsTask.REPORT_YML);
-                            if (path.toFile().exists()) {
-                                getLogger().info("Found reports.yml for " + proj);
-                                reports.add(SerDe.deserialize(path, UpdateReport.class));
-                            }
-                        });
+                        proj ->
+                                Reports.loadUpdateReport(proj.getBuildDir())
+                                        .ifPresent(
+                                                r -> {
+                                                    getLogger()
+                                                            .info("Found reports.yml for " + proj);
+                                                    reports.add(r);
+                                                }));
 
         Map<String, String> pluginUpdates = mergePluginUpdates(reports);
         getProject()
