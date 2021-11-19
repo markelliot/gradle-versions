@@ -8,7 +8,8 @@ final class UpdateGradleWrapperTaskTests {
 
     @Test
     public void testEscapeUrl() {
-        assertThat(UpdateGradleWrapperTask.escapeUrl("https://foo.com")).isEqualTo("https\\://foo.com");
+        assertThat(UpdateGradleWrapperTask.escapeUrl("https://foo.com"))
+                .isEqualTo("https\\://foo.com");
     }
 
     @Test
