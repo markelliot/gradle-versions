@@ -4,5 +4,5 @@ com.google.guava:guava = 31.0.1-jre
 com.jakewharton.nopen:* = 1.0.1
 org.assertj:assertj-core = 3.21.0
 org.immutables:* = 2.8.8
-org.junit:junit-bom = 5.8.1
-org.junit.jupiter:junit-jupiter-engine = 5.7.2
+org.junit:junit-bom = 5.8.2
+org.junit.jupiter:junit-jupiter-engine = 5.8.2
