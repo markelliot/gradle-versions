@@ -46,15 +46,13 @@ public final class VersionsProps {
     }
 
     public void update(String identifier, String version) {
-        String bestMatch =
-                resolver.patternFor(identifier)
-                        .orElseThrow(
-                                () ->
-                                        new IllegalArgumentException(
-                                                "Cannot find matching pattern for '"
-                                                        + identifier
-                                                        + "'"));
+        Optional<String> maybeMatch = resolver.patternFor(identifier);
+        if (maybeMatch.isEmpty()) {
+            System.out.println("No matching pattern for '" + identifier + "'");
+            return;
+        }
 
+        String bestMatch = maybeMatch.get();
         int i = 0;
         for (Line line : lines) {
             if (line.type() == LineType.Version) {
