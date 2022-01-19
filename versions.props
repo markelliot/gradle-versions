@@ -3,6 +3,6 @@ com.google.errorprone:error_prone_core = 2.10.0
 com.google.guava:guava = 31.0.1-jre
 com.jakewharton.nopen:* = 1.0.1
 org.assertj:assertj-core = 3.22.0
-org.immutables:* = 2.8.8
+org.immutables:* = 2.9.0
 org.junit:junit-bom = 5.8.2
 org.junit.jupiter:junit-jupiter-engine = 5.8.2
