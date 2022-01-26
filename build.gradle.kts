@@ -4,7 +4,7 @@ import net.ltgt.gradle.errorprone.errorprone
 plugins {
     idea
     id("com.diffplug.spotless") version "6.2.0"
-    id("com.google.cloud.tools.jib") version "3.1.4" apply false
+    id("com.google.cloud.tools.jib") version "3.2.0" apply false
     id("com.markelliot.versions") version "0.1.12"
     id("com.palantir.consistent-versions") version "2.6.0"
     id("net.ltgt.errorprone") version "2.0.2" apply false
