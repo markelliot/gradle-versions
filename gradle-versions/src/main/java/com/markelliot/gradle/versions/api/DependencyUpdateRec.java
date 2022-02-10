@@ -18,6 +18,7 @@ package com.markelliot.gradle.versions.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.annotation.Nullable;
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -28,6 +29,7 @@ public interface DependencyUpdateRec {
 
     String name();
 
+    @Nullable
     String currentVersion();
 
     String latestVersion();
