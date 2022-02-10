@@ -16,10 +16,9 @@
 
 package com.markelliot.gradle.versions.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.Optional;
+import javax.annotation.Nullable;
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -30,13 +29,8 @@ public interface DependencyUpdateRec {
 
     String name();
 
-    @Value.Derived
-    default String currentVersion() {
-        return currentVersionProp().orElse("");
-    }
-
-    @JsonProperty("currentVersion")
-    Optional<String> currentVersionProp();
+    @Nullable
+    String currentVersion();
 
     String latestVersion();
 }
