@@ -42,10 +42,9 @@ public class UpdatePluginsTask extends DefaultTask {
         getProject()
                 .allprojects(
                         proj -> {
-                            if (proj.getBuildscript().getSourceFile() != null
-                                    && proj.getBuildscript().getSourceFile().exists()) {
-                                setNewPluginVersions(
-                                        proj.getBuildscript().getSourceFile(), pluginUpdates);
+                            File sourceFile = proj.getBuildscript().getSourceFile();
+                            if (sourceFile != null && sourceFile.exists()) {
+                                setNewPluginVersions(sourceFile, pluginUpdates);
                             }
                         });
     }
