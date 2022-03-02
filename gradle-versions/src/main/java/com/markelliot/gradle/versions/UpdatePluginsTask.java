@@ -1,42 +1,38 @@
 package com.markelliot.gradle.versions;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.jakewharton.nopen.annotation.Open;
 import com.markelliot.gradle.versions.api.UpdateReport;
+import com.markelliot.gradle.versions.api.YamlSerDe;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.TaskAction;
 
-@Open
-public class UpdatePluginsTask extends DefaultTask {
+public abstract class UpdatePluginsTask extends DefaultTask {
+
+    @InputFiles
+    abstract ConfigurableFileCollection getReports();
 
     @TaskAction
     public void taskAction() {
-        if (!getProject().equals(getProject().getRootProject())) {
-            getLogger().warn("updatePluginsTask task may only be called from the root project");
-            return;
-        }
-
-        // collect all the update recommendations.
-        List<UpdateReport> reports = new ArrayList<>();
-        getProject()
-                .allprojects(
-                        proj ->
-                                Reports.loadUpdateReport(proj.getBuildDir())
-                                        .ifPresent(
-                                                r -> {
-                                                    getLogger()
-                                                            .info("Found reports.yml for " + proj);
-                                                    reports.add(r);
-                                                }));
+        List<UpdateReport> reports =
+                getReports().getFiles().stream()
+                        .flatMap(
+                                file ->
+                                        Stream.of(
+                                                YamlSerDe.deserialize(
+                                                        file.toPath(), UpdateReport.class)))
+                        .collect(Collectors.toUnmodifiableList());
 
         Map<String, String> pluginUpdates = mergePluginUpdates(reports);
         getProject()

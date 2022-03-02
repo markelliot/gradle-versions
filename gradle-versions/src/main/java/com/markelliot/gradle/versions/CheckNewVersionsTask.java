@@ -16,10 +16,11 @@
 
 package com.markelliot.gradle.versions;
 
-import com.jakewharton.nopen.annotation.Open;
 import com.markelliot.gradle.versions.api.DependencyUpdateRec;
 import com.markelliot.gradle.versions.api.ImmutableDependencyUpdateRec;
-import com.markelliot.gradle.versions.api.ImmutableUpdateReport;
+import com.markelliot.gradle.versions.api.UpdateReport;
+import com.markelliot.gradle.versions.api.YamlSerDe;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,20 +33,31 @@ import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.LenientConfiguration;
 import org.gradle.api.artifacts.ResolvedDependency;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.specs.Specs;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
-@Open
-public class CheckNewVersionsTask extends DefaultTask {
+public abstract class CheckNewVersionsTask extends DefaultTask {
     // TODO(markelliot): make these configurable
     private static final Set<String> DISALLOWED_QUALIFIERS =
             Set.of("-alpha", "-beta", "-ea", "-rc");
 
+    @OutputFile
+    abstract RegularFileProperty getReportFile();
+
     @TaskAction
-    public final void taskAction() {
+    public final void taskAction() throws IOException {
         Set<DependencyUpdateRec> dependencyUpdates = getDependencyUpdates();
         Set<DependencyUpdateRec> pluginUpdates = getPluginUpdates();
-        writeReports(dependencyUpdates, pluginUpdates);
+
+        YamlSerDe.mapper.writeValue(
+                getReportFile().getAsFile().get(),
+                UpdateReport.builder()
+                        .project(getProject().getPath())
+                        .addAllDependencyUpdates(dependencyUpdates)
+                        .addAllPluginUpdates(pluginUpdates)
+                        .build());
     }
 
     private Set<DependencyUpdateRec> getDependencyUpdates() {
@@ -80,17 +92,6 @@ public class CheckNewVersionsTask extends DefaultTask {
             pluginUpdates.forEach(upgrade -> System.out.println("- " + render(upgrade)));
         }
         return pluginUpdates;
-    }
-
-    private void writeReports(
-            Set<DependencyUpdateRec> dependencyUpdates, Set<DependencyUpdateRec> pluginUpdates) {
-        Reports.writeUpdateReport(
-                getProject().getBuildDir(),
-                ImmutableUpdateReport.builder()
-                        .project(getProject().getPath())
-                        .addAllDependencyUpdates(dependencyUpdates)
-                        .addAllPluginUpdates(pluginUpdates)
-                        .build());
     }
 
     private static String render(DependencyUpdateRec detail) {
