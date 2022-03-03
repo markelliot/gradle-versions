@@ -11,13 +11,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Open
 public class UpdateGradleWrapperTask extends DefaultTask {
+    private static final String WRAPPER_PROPS = "gradle/wrapper/gradle-wrapper.properties";
+
+    private static final Logger log = LoggerFactory.getLogger(UpdateGradleWrapperTask.class);
+
     @TaskAction
     public void taskAction() {
         if (!getProject().equals(getProject().getRootProject())) {
-            getLogger().warn("Can only run updateGradle on the root project");
+            log.warn("Can only run updateGradle on the root project");
             return;
         }
 
@@ -26,8 +32,7 @@ public class UpdateGradleWrapperTask extends DefaultTask {
     }
 
     private void applyGradleUpdate(GradleUpdateReport gur) {
-        File file =
-                new File(getProject().getProjectDir(), "gradle/wrapper/gradle-wrapper.properties");
+        File file = new File(getProject().getProjectDir(), WRAPPER_PROPS);
         if (file.exists()) {
             System.out.println(
                     "Updating Gradle wrapper "

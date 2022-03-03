@@ -18,9 +18,7 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         if (!project.equals(project.getRootProject())) {
-            log.info(
-                    "{}: com.markelliot.versions may only be applied to the root project",
-                    project.getDisplayName());
+            log.warn("Can only apply com.markelliot.versions on the root project");
             return;
         }
 
