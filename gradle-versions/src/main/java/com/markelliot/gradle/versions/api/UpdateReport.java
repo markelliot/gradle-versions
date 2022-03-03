@@ -31,9 +31,7 @@ public interface UpdateReport {
 
     Set<DependencyUpdateRec> pluginUpdates();
 
-    class Builder extends ImmutableUpdateReport.Builder {}
-
-    static Builder builder() {
-        return new Builder();
+    static ImmutableUpdateReport.Builder builder() {
+        return ImmutableUpdateReport.builder();
     }
 }

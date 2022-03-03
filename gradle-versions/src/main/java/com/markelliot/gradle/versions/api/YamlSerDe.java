@@ -25,12 +25,13 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class YamlSerDe {
-    public static final ObjectMapper mapper =
+    private static final ObjectMapper mapper =
             new ObjectMapper(
                             new YAMLFactory()
                                     .enable(Feature.MINIMIZE_QUOTES)
@@ -47,6 +48,14 @@ public final class YamlSerDe {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static <T> void serialize(File file, T obj) {
+        try {
+            mapper.writeValue(file, obj);
+        } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }

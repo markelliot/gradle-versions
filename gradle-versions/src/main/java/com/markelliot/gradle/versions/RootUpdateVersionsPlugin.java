@@ -6,15 +6,22 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class RootUpdateVersionsPlugin implements Plugin<Project> {
     private static final String VERSIONS_PROPS = "versions.props";
     private static final String ALL_REPORTS = "allReports";
 
+    private static final Logger log = LoggerFactory.getLogger(RootUpdateVersionsPlugin.class);
+
     @Override
     public void apply(Project project) {
         if (!project.equals(project.getRootProject())) {
-            throw new IllegalStateException("Plugin must be applied onto root project");
+            log.info(
+                    "{}: com.markelliot.versions may only be applied to the root project",
+                    project.getDisplayName());
+            return;
         }
 
         Configuration reportConfiguration = createReportConfiguration(project);
@@ -55,6 +62,7 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                             task.setDescription(
                                     "Uses result of checkNewVersions task to update buildscript plugin blocks");
                         });
+
         project.getTasks()
                 .create("updateGradleWrapper", UpdateGradleWrapperTask.class)
                 .setDescription("Uses result of checkNewGradleVersion to update Gradle wrapper");
@@ -63,6 +71,12 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                 project.getTasks().create("checkNewGradleVersion", CheckNewGradleVersionTask.class);
         gradleTask.setDescription("Checks for and reports on existence of a new Gradle version");
         project.getTasks().getByName("checkNewVersions").dependsOn(gradleTask);
+
+        Task doAllUpdates = project.getTasks().create("updateAll", task -> {});
+        doAllUpdates.dependsOn(
+                project.getTasks().getByName("updateGradleWrapper"),
+                project.getTasks().getByName("updatePlugins"),
+                project.getTasks().getByName("updateVersionsProps"));
     }
 
     private static Configuration createReportConfiguration(Project project) {

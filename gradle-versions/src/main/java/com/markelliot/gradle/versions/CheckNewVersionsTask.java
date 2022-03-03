@@ -20,7 +20,6 @@ import com.markelliot.gradle.versions.api.DependencyUpdateRec;
 import com.markelliot.gradle.versions.api.ImmutableDependencyUpdateRec;
 import com.markelliot.gradle.versions.api.UpdateReport;
 import com.markelliot.gradle.versions.api.YamlSerDe;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +46,11 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
     abstract RegularFileProperty getReportFile();
 
     @TaskAction
-    public final void taskAction() throws IOException {
+    public final void taskAction() {
         Set<DependencyUpdateRec> dependencyUpdates = getDependencyUpdates();
         Set<DependencyUpdateRec> pluginUpdates = getPluginUpdates();
 
-        YamlSerDe.mapper.writeValue(
+        YamlSerDe.serialize(
                 getReportFile().getAsFile().get(),
                 UpdateReport.builder()
                         .project(getProject().getPath())
