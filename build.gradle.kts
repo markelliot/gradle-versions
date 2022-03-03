@@ -58,6 +58,7 @@ allprojects {
 
         dependencies {
             "errorprone"("com.google.errorprone:error_prone_core")
+            "errorprone"("com.jakewharton.nopen:nopen-checker")
             "compileOnly"("com.jakewharton.nopen:nopen-annotations")
         }
 

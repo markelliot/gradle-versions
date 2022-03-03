@@ -25,7 +25,7 @@ public final class UpdateVersionsPlugin implements Plugin<Project> {
     public static final String NEW_VERSIONS = "newVersions";
 
     @Override
-    public final void apply(Project project) {
+    public void apply(Project project) {
         TaskProvider<CheckNewVersionsTask> checkNewVersions =
                 project.getTasks()
                         .register(

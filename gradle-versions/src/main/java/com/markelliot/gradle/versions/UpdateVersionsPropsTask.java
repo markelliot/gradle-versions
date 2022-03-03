@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
@@ -27,7 +26,7 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
     @TaskAction
     public final void taskAction() {
         if (!getProject().equals(getProject().getRootProject())) {
-            getLogger().warn("updateVersionsProps task may only be called from the root project");
+            getLogger().warn("Can only run updateVersionsProps on the root project");
             return;
         }
 
@@ -35,11 +34,7 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
         // collect all the update recommendations.
         List<UpdateReport> reports =
                 getReports().getFiles().stream()
-                        .flatMap(
-                                file ->
-                                        Stream.of(
-                                                YamlSerDe.deserialize(
-                                                        file.toPath(), UpdateReport.class)))
+                        .map(file -> YamlSerDe.deserialize(file.toPath(), UpdateReport.class))
                         .collect(Collectors.toUnmodifiableList());
 
         // merge recommendations

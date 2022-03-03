@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.tasks.InputFiles;
@@ -27,11 +26,7 @@ public abstract class UpdatePluginsTask extends DefaultTask {
     public void taskAction() {
         List<UpdateReport> reports =
                 getReports().getFiles().stream()
-                        .flatMap(
-                                file ->
-                                        Stream.of(
-                                                YamlSerDe.deserialize(
-                                                        file.toPath(), UpdateReport.class)))
+                        .map(file -> YamlSerDe.deserialize(file.toPath(), UpdateReport.class))
                         .collect(Collectors.toUnmodifiableList());
 
         Map<String, String> pluginUpdates = mergePluginUpdates(reports);
