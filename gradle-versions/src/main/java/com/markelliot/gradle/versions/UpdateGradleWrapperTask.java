@@ -2,6 +2,7 @@ package com.markelliot.gradle.versions;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.jakewharton.nopen.annotation.Open;
+import com.markelliot.gradle.versions.api.GradleUpdateReport;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,31 +21,29 @@ public class UpdateGradleWrapperTask extends DefaultTask {
             return;
         }
 
-        Reports.loadGradleReport(getProject().getBuildDir())
-                .ifPresent(
-                        gur -> {
-                            File file =
-                                    new File(
-                                            getProject().getProjectDir(),
-                                            "gradle/wrapper/gradle-wrapper.properties");
-                            if (file.exists()) {
-                                System.out.println(
-                                        "Updating Gradle wrapper "
-                                                + gur.gradle().currentVersion()
-                                                + " -> "
-                                                + gur.gradle().latestVersion());
-                                try {
-                                    String content = Files.readString(file.toPath());
-                                    Files.writeString(
-                                            file.toPath(),
-                                            updateDistributionUrl(
-                                                    content, gur.gradle().distributionUrl()),
-                                            StandardOpenOption.TRUNCATE_EXISTING);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        });
+        Reports.loadGradleUpdateReport(getProject().getBuildDir())
+                .ifPresent(this::applyGradleUpdate);
+    }
+
+    private void applyGradleUpdate(GradleUpdateReport gur) {
+        File file =
+                new File(getProject().getProjectDir(), "gradle/wrapper/gradle-wrapper.properties");
+        if (file.exists()) {
+            System.out.println(
+                    "Updating Gradle wrapper "
+                            + gur.gradle().currentVersion()
+                            + " -> "
+                            + gur.gradle().latestVersion());
+            try {
+                String content = Files.readString(file.toPath());
+                Files.writeString(
+                        file.toPath(),
+                        updateDistributionUrl(content, gur.gradle().distributionUrl()),
+                        StandardOpenOption.TRUNCATE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private static final Pattern DISTURL = Pattern.compile("distributionUrl=.*");

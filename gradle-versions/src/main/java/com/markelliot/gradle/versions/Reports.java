@@ -2,7 +2,6 @@ package com.markelliot.gradle.versions;
 
 import com.google.common.base.Preconditions;
 import com.markelliot.gradle.versions.api.GradleUpdateReport;
-import com.markelliot.gradle.versions.api.UpdateReport;
 import com.markelliot.gradle.versions.api.YamlSerDe;
 import java.io.File;
 import java.io.IOException;
@@ -23,15 +22,7 @@ public final class Reports {
         writeReport(projectBuildDir, GRADLE_REPORT_YML, report);
     }
 
-    public static Optional<UpdateReport> loadUpdateReport(File projectBuildDir) {
-        Path path = Paths.get(projectBuildDir.getPath(), REPORT_DIRNAME, REPORT_YML);
-        if (path.toFile().exists()) {
-            return Optional.of(YamlSerDe.deserialize(path, UpdateReport.class));
-        }
-        return Optional.empty();
-    }
-
-    public static Optional<GradleUpdateReport> loadGradleReport(File projectBuildDir) {
+    public static Optional<GradleUpdateReport> loadGradleUpdateReport(File projectBuildDir) {
         Path path = Paths.get(projectBuildDir.getPath(), REPORT_DIRNAME, GRADLE_REPORT_YML);
         if (path.toFile().exists()) {
             return Optional.of(YamlSerDe.deserialize(path, GradleUpdateReport.class));
