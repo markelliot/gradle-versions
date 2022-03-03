@@ -26,7 +26,7 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
     @TaskAction
     public final void taskAction() {
         if (!getProject().equals(getProject().getRootProject())) {
-            getLogger().warn("updateVersionsProps task may only be called from the root project");
+            getLogger().warn("Can only run updateVersionsProps on the root project");
             return;
         }
 
