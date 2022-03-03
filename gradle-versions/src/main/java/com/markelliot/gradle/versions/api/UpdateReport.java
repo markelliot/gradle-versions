@@ -30,4 +30,10 @@ public interface UpdateReport {
     Set<DependencyUpdateRec> dependencyUpdates();
 
     Set<DependencyUpdateRec> pluginUpdates();
+
+    class Builder extends ImmutableUpdateReport.Builder {}
+
+    static Builder builder() {
+        return new Builder();
+    }
 }

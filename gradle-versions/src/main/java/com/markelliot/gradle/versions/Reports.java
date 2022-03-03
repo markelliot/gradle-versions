@@ -19,10 +19,6 @@ public final class Reports {
 
     private Reports() {}
 
-    public static void writeUpdateReport(File projectBuildDir, UpdateReport report) {
-        writeReport(projectBuildDir, REPORT_YML, report);
-    }
-
     public static void writeGradleUpdateReport(File projectBuildDir, GradleUpdateReport report) {
         writeReport(projectBuildDir, GRADLE_REPORT_YML, report);
     }

@@ -30,7 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class YamlSerDe {
-    private static final ObjectMapper mapper =
+    public static final ObjectMapper mapper =
             new ObjectMapper(
                             new YAMLFactory()
                                     .enable(Feature.MINIMIZE_QUOTES)

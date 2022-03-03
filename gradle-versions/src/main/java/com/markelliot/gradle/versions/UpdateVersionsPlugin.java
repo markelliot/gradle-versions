@@ -16,45 +16,50 @@
 
 package com.markelliot.gradle.versions;
 
-import com.jakewharton.nopen.annotation.Open;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
+import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.tasks.TaskProvider;
 
-@Open
-public class UpdateVersionsPlugin implements Plugin<Project> {
+public final class UpdateVersionsPlugin implements Plugin<Project> {
+    public static final String NEW_VERSIONS = "newVersions";
+
     @Override
     public final void apply(Project project) {
-        if (project.getTasks().findByName("checkNewVersions") == null) {
-            project.getTasks()
-                    .create("checkNewVersions", CheckNewVersionsTask.class)
-                    .setDescription(
-                            "Checks for and reports on existence of newer versions of dependencies and plugins");
-        } else {
-            System.out.println(
-                    "Project '" + project.getName() + "' already has checkNewVersions task.");
-        }
+        TaskProvider<CheckNewVersionsTask> checkNewVersions =
+                project.getTasks()
+                        .register(
+                                "checkNewVersions",
+                                CheckNewVersionsTask.class,
+                                task -> {
+                                    task.getReportFile()
+                                            .set(
+                                                    project.getLayout()
+                                                            .getBuildDirectory()
+                                                            .file("versions-report.yml"));
+                                    task.setDescription(
+                                            "Checks for and reports on existence of newer versions of dependencies and plugins");
+                                });
 
-        if (project.equals(project.getRootProject())) {
-            project.getTasks()
-                    .create("updateVersionsProps", UpdateVersionsPropsTask.class)
-                    .setDescription(
-                            "Uses result of checkNewVersions task to update versions.props");
-            project.getTasks()
-                    .create("updatePlugins", UpdatePluginsTask.class)
-                    .setDescription(
-                            "Uses result of checkNewVersions task to update buildscript plugin blocks");
-            project.getTasks()
-                    .create("updateGradleWrapper", UpdateGradleWrapperTask.class)
-                    .setDescription(
-                            "Uses result of checkNewGradleVersion to update Gradle wrapper");
+        createOutgoingConfiguration(project, checkNewVersions);
+    }
 
-            Task gradleTask =
-                    project.getTasks()
-                            .create("checkNewGradleVersion", CheckNewGradleVersionTask.class);
-            gradleTask.setDescription(
-                    "Checks for and reports on existence of a new Gradle version");
-            project.getTasks().getByName("checkNewVersions").dependsOn(gradleTask);
-        }
+    private static void createOutgoingConfiguration(
+            Project project, TaskProvider<CheckNewVersionsTask> task) {
+        Configuration outgoingConfiguration =
+                project.getConfigurations()
+                        .create(
+                                NEW_VERSIONS,
+                                conf -> {
+                                    conf.setCanBeResolved(false);
+                                    conf.setCanBeConsumed(true);
+                                    conf.setVisible(true);
+                                });
+
+        project.getArtifacts()
+                .add(
+                        outgoingConfiguration.getName(),
+                        task.flatMap(CheckNewVersionsTask::getReportFile),
+                        artifact -> artifact.builtBy(task));
     }
 }

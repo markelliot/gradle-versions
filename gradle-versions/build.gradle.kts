@@ -1,6 +1,7 @@
 import java.net.URI
 
 plugins {
+    `groovy`
     `java-gradle-plugin`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.20.0"
@@ -17,9 +18,11 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.google.guava:guava")
 
+    testImplementation(gradleTestKit())
     testImplementation(platform("org.junit:junit-bom"))
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("com.netflix.nebula:nebula-test")
 }
 
 tasks.test {
@@ -33,7 +36,7 @@ gradlePlugin {
     plugins {
         create("versions") {
             id = "com.markelliot.versions"
-            implementationClass = "com.markelliot.gradle.versions.UpdateVersionsPlugin"
+            implementationClass = "com.markelliot.gradle.versions.RootUpdateVersionsPlugin"
         }
     }
 }
