@@ -11,7 +11,7 @@ final class UpdatePluginsTaskTests {
         // gradle/groovy
         assertThat(applyUpdate("id \"com.foo.bar\" version \"0.1.0\"", "com.foo.bar", "0.2.0"))
                 .isEqualTo("id \"com.foo.bar\" version \"0.2.0\"");
-            assertThat(applyUpdate("id 'com.foo.bar' version '0.1.0'", "com.foo.bar", "0.2.0"))
+        assertThat(applyUpdate("id 'com.foo.bar' version '0.1.0'", "com.foo.bar", "0.2.0"))
                 .isEqualTo("id 'com.foo.bar' version '0.2.0'");
         // gradle/kotlin
         assertThat(applyUpdate("id(\"com.foo.bar\") version \"0.1.0\"", "com.foo.bar", "0.2.0"))
@@ -19,7 +19,7 @@ final class UpdatePluginsTaskTests {
         // no match
         assertThat(applyUpdate("id \"com.foo.baz\" version \"0.1.0\"", "com.foo.bar", "0.2.0"))
                 .isEqualTo("id \"com.foo.baz\" version \"0.1.0\"");
-            assertThat(applyUpdate("id 'com.foo.baz' version '0.1.0'", "com.foo.bar", "0.2.0"))
+        assertThat(applyUpdate("id 'com.foo.baz' version '0.1.0'", "com.foo.bar", "0.2.0"))
                 .isEqualTo("id \"com.foo.baz\" version \"0.1.0\"");
     }
 }
