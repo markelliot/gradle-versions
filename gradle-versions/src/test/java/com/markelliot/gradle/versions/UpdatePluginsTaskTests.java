@@ -24,6 +24,6 @@ final class UpdatePluginsTaskTests {
         assertThat(applyUpdate("id \"com.foo.baz\" version \"0.1.0\"", "com.foo.bar", "0.2.0"))
                 .isEqualTo("id \"com.foo.baz\" version \"0.1.0\"");
         assertThat(applyUpdate("id 'com.foo.baz' version '0.1.0'", "com.foo.bar", "0.2.0"))
-                .isEqualTo("id \"com.foo.baz\" version \"0.1.0\"");
+                .isEqualTo("id 'com.foo.baz' version '0.1.0'");
     }
 }
