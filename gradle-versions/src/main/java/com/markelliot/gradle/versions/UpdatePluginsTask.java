@@ -59,7 +59,7 @@ public abstract class UpdatePluginsTask extends DefaultTask {
         if (matcher.find()) {
             content =
                     matcher.replaceFirst(
-                            "id$1$2" + pluginName + "$3$4version $5" + pluginVersion + "$6");
+                            "id$1$2" + pluginName + "$3$4version $5" + pluginVersion + "$7");
         }
         return content;
     }
