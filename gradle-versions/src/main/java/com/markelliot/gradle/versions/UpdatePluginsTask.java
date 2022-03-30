@@ -54,12 +54,12 @@ public abstract class UpdatePluginsTask extends DefaultTask {
                 Pattern.compile(
                         "id(\\s+|\\s*\\()(\"|')"
                                 + Pattern.quote(pluginName)
-                                + "(\"|')(\\s+|\\)\\s+)version\\s+\"([^\"]+)\"");
+                                + "(\"|')(\\s+|\\)\\s+)version\\s+(\"|')([^\"]+)(\"|')");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
             content =
                     matcher.replaceFirst(
-                            "id$1$2" + pluginName + "$3$4version \"" + pluginVersion + "\"");
+                            "id$1$2" + pluginName + "$3$4version $5" + pluginVersion + "$6");
         }
         return content;
     }
