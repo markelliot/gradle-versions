@@ -52,14 +52,14 @@ public abstract class UpdatePluginsTask extends DefaultTask {
     static String applyUpdate(String content, String pluginName, String pluginVersion) {
         Pattern pattern =
                 Pattern.compile(
-                        "id(\\s+|\\s*\\()\""
+                        "id(\\s+|\\s*\\()(\"|')"
                                 + Pattern.quote(pluginName)
-                                + "\"(\\s+|\\)\\s+)version\\s+\"([^\"]+)\"");
+                                + "(\"|')(\\s+|\\)\\s+)version\\s+(\"|')([^\"]+)(\"|')");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
             content =
                     matcher.replaceFirst(
-                            "id$1\"" + pluginName + "\"$2version \"" + pluginVersion + "\"");
+                            "id$1$2" + pluginName + "$3$4version $5" + pluginVersion + "$7");
         }
         return content;
     }
