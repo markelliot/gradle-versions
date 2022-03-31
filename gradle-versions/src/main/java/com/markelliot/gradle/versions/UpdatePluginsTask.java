@@ -52,9 +52,9 @@ public abstract class UpdatePluginsTask extends DefaultTask {
     static String applyUpdate(String content, String pluginName, String pluginVersion) {
         Pattern pattern =
                 Pattern.compile(
-                        "id(\\s+|\\s*\\()(\"|')"
+                        "id(\\s+|\\s*\\()([\"'])"
                                 + Pattern.quote(pluginName)
-                                + "(\"|')(\\s+|\\)\\s+)version\\s+(\"|')([^\"]+)(\"|')");
+                                + "([\"'])(\\s+|\\)\\s+)version\\s+([\"'])([^\"']+)([\"'])");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
             content =
