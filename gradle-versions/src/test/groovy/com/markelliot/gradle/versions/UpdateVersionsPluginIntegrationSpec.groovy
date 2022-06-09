@@ -36,5 +36,9 @@ class UpdateVersionsPluginIntegrationSpec extends IntegrationSpec {
         result.wasExecuted('projectA:checkNewVersions')
 
         !versionsProps.text.contains("2.12.1")
+
+        def buildResult = runTasksSuccessfully('build')
+        !buildResult.wasExecuted(':checkNewVersions')
+        !buildResult.wasExecuted('projectA:checkNewVersions')
     }
 }
