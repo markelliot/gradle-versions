@@ -30,8 +30,11 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                             .project(
                                     Map.of(
                                             "path",
-                                            subProject.getPath()));
-            reportConfiguration.getDependencies().add(dependency);
+                                            subProject.getPath(),
+                                            "configuration",
+                                            UpdateVersionsPlugin.NEW_VERSIONS));
+            project.getDependencies()
+                    .add(reportConfiguration.getName(), dependency);
         });
 
         project.getTasks()
