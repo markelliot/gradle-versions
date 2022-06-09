@@ -53,7 +53,7 @@ public final class UpdateVersionsPlugin implements Plugin<Project> {
                                 conf -> {
                                     conf.setCanBeResolved(false);
                                     conf.setCanBeConsumed(true);
-                                    conf.setVisible(true);
+                                    conf.setVisible(false);
                                 });
 
         project.getArtifacts()
