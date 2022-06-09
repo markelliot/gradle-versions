@@ -23,19 +23,19 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
         }
 
         Configuration reportConfiguration = createReportConfiguration(project);
-        project.allprojects(subProject -> {
-            subProject.getPluginManager().apply(UpdateVersionsPlugin.class);
-            Dependency dependency =
-                    project.getDependencies()
-                            .project(
-                                    Map.of(
-                                            "path",
-                                            subProject.getPath(),
-                                            "configuration",
-                                            UpdateVersionsPlugin.NEW_VERSIONS));
-            project.getDependencies()
-                    .add(reportConfiguration.getName(), dependency);
-        });
+        project.allprojects(
+                subProject -> {
+                    subProject.getPluginManager().apply(UpdateVersionsPlugin.class);
+                    Dependency dependency =
+                            project.getDependencies()
+                                    .project(
+                                            Map.of(
+                                                    "path",
+                                                    subProject.getPath(),
+                                                    "configuration",
+                                                    UpdateVersionsPlugin.NEW_VERSIONS));
+                    project.getDependencies().add(reportConfiguration.getName(), dependency);
+                });
 
         project.getTasks()
                 .register(
@@ -60,24 +60,34 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                         });
 
         project.getTasks()
-                .register("updateGradleWrapper", UpdateGradleWrapperTask.class, task -> {
-                    task.setDescription("Uses result of checkNewGradleVersion to update Gradle wrapper");
-                });
+                .register(
+                        "updateGradleWrapper",
+                        UpdateGradleWrapperTask.class,
+                        task -> {
+                            task.setDescription(
+                                    "Uses result of checkNewGradleVersion to update Gradle wrapper");
+                        });
 
-        TaskProvider<CheckNewGradleVersionTask> gradleTask = project.getTasks().register(
-                "checkNewGradleVersion",
-                CheckNewGradleVersionTask.class,
-                task -> {
-                    task.setDescription("Checks for and reports on existence of a new Gradle version");
-                });
+        TaskProvider<CheckNewGradleVersionTask> gradleTask =
+                project.getTasks()
+                        .register(
+                                "checkNewGradleVersion",
+                                CheckNewGradleVersionTask.class,
+                                task -> {
+                                    task.setDescription(
+                                            "Checks for and reports on existence of a new Gradle version");
+                                });
         project.getTasks().named("checkNewVersions").configure(task -> task.dependsOn(gradleTask));
 
-        project.getTasks().register("updateAll", task -> {
-            task.dependsOn(
-                    project.getTasks().getByName("updateGradleWrapper"),
-                    project.getTasks().getByName("updatePlugins"),
-                    project.getTasks().getByName("updateVersionsProps"));
-        });
+        project.getTasks()
+                .register(
+                        "updateAll",
+                        task -> {
+                            task.dependsOn(
+                                    project.getTasks().getByName("updateGradleWrapper"),
+                                    project.getTasks().getByName("updatePlugins"),
+                                    project.getTasks().getByName("updateVersionsProps"));
+                        });
     }
 
     private static Configuration createReportConfiguration(Project project) {
