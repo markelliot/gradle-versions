@@ -4,7 +4,7 @@ plugins {
     `groovy`
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.21.0"
+    id("com.gradle.plugin-publish") version "1.0.0"
 }
 
 dependencies {
@@ -32,30 +32,23 @@ tasks.test {
     }
 }
 
+pluginBundle {
+    website = "https://github.com/markelliot/gradle-versions"
+    vcsUrl = "https://github.com/markelliot/gradle-versions"
+    tags = listOf("versions")
+}
+
 gradlePlugin {
     plugins {
         create("versions") {
             id = "com.markelliot.versions"
-            implementationClass = "com.markelliot.gradle.versions.RootUpdateVersionsPlugin"
-        }
-    }
-}
-
-pluginBundle {
-    website = "https://github.com/markelliot/gradle-versions"
-    vcsUrl = "https://github.com/markelliot/gradle-versions"
-
-    description = "Creates a task that determines available dependency and plugin upgrades for a " +
-        "project and produces a YAML report. Additionally provides two tasks for updating the " +
-        "versions in a versions.props file (nebula.dependency-recommender or " +
-        "com.palantir.consistent-versions compatible) and updating plugin versions in Gradle " +
-        "plugin blocks."
-
-    tags = listOf("versions")
-
-    (plugins) {
-        "versions" {
             displayName = "Version Update Plugin"
+            description = "Creates a task that determines available dependency and plugin upgrades for a " +
+                "project and produces a YAML report. Additionally provides two tasks for updating the " +
+                "versions in a versions.props file (nebula.dependency-recommender or " +
+                "com.palantir.consistent-versions compatible) and updating plugin versions in Gradle " +
+                "plugin blocks."
+            implementationClass = "com.markelliot.gradle.versions.RootUpdateVersionsPlugin"
             version = "${project.version}"
         }
     }
