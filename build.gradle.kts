@@ -5,7 +5,7 @@ plugins {
     idea
     id("com.diffplug.spotless") version "6.10.0"
     id("com.google.cloud.tools.jib") version "3.3.0" apply false
-    id("com.markelliot.versions") version "0.5.0"
+    id("com.markelliot.versions") version "0.6.0"
     id("com.palantir.consistent-versions") version "2.11.0"
     id("net.ltgt.errorprone") version "2.0.2" apply false
     id("org.inferred.processors") version "3.7.0" apply false
