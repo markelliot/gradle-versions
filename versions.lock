@@ -2,7 +2,7 @@
 com.fasterxml.jackson:jackson-bom:2.13.4 (7 constraints: 6692eecd)
 com.fasterxml.jackson.core:jackson-annotations:2.13.4 (3 constraints: b437df02)
 com.fasterxml.jackson.core:jackson-core:2.13.4 (6 constraints: 247c4a60)
-com.fasterxml.jackson.core:jackson-databind:2.13.4 (6 constraints: d66e560d)
+com.fasterxml.jackson.core:jackson-databind:2.13.4.2 (6 constraints: 366f1c88)
 com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.4 (2 constraints: f513db82)
 com.fasterxml.jackson.datatype:jackson-datatype-guava:2.13.4 (2 constraints: f513db82)
 com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.4 (2 constraints: f513db82)
@@ -20,7 +20,7 @@ org.yaml:snakeyaml:1.31 (1 constraints: 6d17f627)
 
 [Test dependencies]
 cglib:cglib-nodep:3.3.0 (2 constraints: 7a1acf3c)
-com.netflix.nebula:nebula-test:10.2.0 (1 constraints: 35052d3b)
+com.netflix.nebula:nebula-test:10.3.0 (1 constraints: 3605303b)
 junit:junit:4.13.2 (1 constraints: 1b0e1d4c)
 net.bytebuddy:byte-buddy:1.12.10 (2 constraints: db18dbd6)
 org.assertj:assertj-core:3.23.1 (2 constraints: 6917b847)

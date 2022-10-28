@@ -1,10 +1,10 @@
-com.fasterxml.jackson.core:jackson-databind = 2.13.4
+com.fasterxml.jackson.core:jackson-databind = 2.13.4.2
 com.fasterxml.jackson.*:* = 2.13.4
-com.google.errorprone:error_prone_core = 2.15.0
+com.google.errorprone:error_prone_core = 2.16
 com.google.guava:guava = 31.1-jre
 com.jakewharton.nopen:* = 1.0.1
 org.assertj:assertj-core = 3.23.1
 org.immutables:* = 2.9.2
 org.junit:junit-bom = 5.9.1
 org.junit.jupiter:junit-jupiter-engine = 5.9.1
-com.netflix.nebula:nebula-test = 10.2.0
+com.netflix.nebula:nebula-test = 10.3.0
