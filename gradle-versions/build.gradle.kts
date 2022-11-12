@@ -4,7 +4,7 @@ plugins {
     `groovy`
     `java-gradle-plugin`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "1.0.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
 dependencies {
