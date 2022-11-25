@@ -26,6 +26,6 @@ public abstract class ClearMarkdownReportTask extends DefaultTask {
             return;
         }
 
-        Reports.clearMarkdownReport(getProject().getProjectDir());
+        Reports.clearMarkdownReport(getProject().getBuildDir());
     }
 }
