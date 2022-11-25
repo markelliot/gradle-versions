@@ -53,6 +53,7 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
                     getProject().getBuildDir(),
                     "## Updated Dependencies\n"
                             + updates.stream()
+                                    .filter(u -> !u.oldVersion().equals(u.newVersion()))
                                     .map(
                                             u ->
                                                     String.format(

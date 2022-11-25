@@ -99,10 +99,6 @@ public final class FuzzyPatternResolver {
             return new Glob(pattern, glob, weight);
         }
 
-        String getRawPattern() {
-            return rawPattern;
-        }
-
         boolean matches(String key) {
             return pattern.matcher(key).matches();
         }
