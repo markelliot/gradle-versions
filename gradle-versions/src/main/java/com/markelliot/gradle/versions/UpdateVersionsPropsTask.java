@@ -47,13 +47,17 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
         updateRecs.forEach((k, v) -> versionsProps.update(k, v).ifPresent(updates::add));
         versionsProps.to(versionPropsFile);
 
+        List<VersionsProps.UpdatedLine> filtered =
+                updates.stream()
+                        .filter(u -> !u.oldVersion().equals(u.newVersion()))
+                        .collect(Collectors.toList());
+
         // markdown output
-        if (!updates.isEmpty()) {
+        if (!filtered.isEmpty()) {
             Reports.appendMarkdownReport(
                     getProject().getBuildDir(),
                     "## Updated Dependencies\n"
                             + updates.stream()
-                                    .filter(u -> !u.oldVersion().equals(u.newVersion()))
                                     .map(
                                             u ->
                                                     String.format(
