@@ -48,18 +48,20 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
         versionsProps.to(versionPropsFile);
 
         // markdown output
-        Reports.appendMarkdownReport(
-                getProject().getBuildDir(),
-                "## Updated Dependencies\n"
-                        + updates.stream()
-                                .map(
-                                        u ->
-                                                String.format(
-                                                        " * `%s %s -> %s`\n",
-                                                        u.dependency(),
-                                                        u.oldVersion(),
-                                                        u.newVersion()))
-                                .collect(Collectors.joining()));
+        if (!updates.isEmpty()) {
+            Reports.appendMarkdownReport(
+                    getProject().getBuildDir(),
+                    "## Updated Dependencies\n"
+                            + updates.stream()
+                                    .map(
+                                            u ->
+                                                    String.format(
+                                                            " * `%s %s -> %s`\n",
+                                                            u.dependency(),
+                                                            u.oldVersion(),
+                                                            u.newVersion()))
+                                    .collect(Collectors.joining()));
+        }
     }
 
     private Map<String, String> mergeDependencyUpdates(List<UpdateReport> reports) {
