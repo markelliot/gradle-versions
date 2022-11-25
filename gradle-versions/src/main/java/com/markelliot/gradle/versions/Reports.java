@@ -60,10 +60,9 @@ public final class Reports {
 
     public static void clearMarkdownReport(File rootProjectDir) {
         File reportDir = mkdirIfNotExist(rootProjectDir);
-        try {
-            Files.deleteIfExists(new File(reportDir, "report.md").toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File report = new File(reportDir, "report.md");
+        if (report.exists()) {
+            Preconditions.checkState(report.delete(), "unable to delete report.md");
         }
     }
 
