@@ -1,10 +1,8 @@
 package com.markelliot.gradle.versions;
 
 import java.util.Map;
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.tasks.TaskProvider;
@@ -38,6 +36,12 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                                                     UpdateVersionsPlugin.NEW_VERSIONS));
                     project.getDependencies().add(reportConfiguration.getName(), dependency);
                 });
+
+        project.getTasks()
+                .register(
+                        "clearUpdateMarkdownReport",
+                        ClearMarkdownReportTask.class,
+                        task -> task.setDescription("Clears the markdown report of updates"));
 
         project.getTasks()
                 .register(
@@ -75,29 +79,18 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                         .register(
                                 "checkNewGradleVersion",
                                 CheckNewGradleVersionTask.class,
-                                task -> {
-                                    task.setDescription(
-                                            "Checks for and reports on existence of a new Gradle version");
-                                });
-        project.getTasks()
-                .named("checkNewVersions")
-                .configure(
-                        task -> {
-                            task.doLast(
-                                    new Action<Task>() {
-                                        @Override
-                                        public void execute(Task task) {
-                                            Reports.clearMarkdownReport(project.getProjectDir());
-                                        }
-                                    });
-                            task.dependsOn(gradleTask);
-                        });
+                                task ->
+                                        task.setDescription(
+                                                "Checks for and reports on existence of a new Gradle version"));
+        project.getTasks().named("checkNewVersions").configure(task -> task.dependsOn(gradleTask));
 
         project.getTasks()
                 .register(
                         "updateAll",
                         task -> {
+                            task.setDescription("Performs all known version update tasks");
                             task.dependsOn(
+                                    project.getTasks().getByName("clearUpdateMarkdownReport"),
                                     project.getTasks().getByName("updateGradleWrapper"),
                                     project.getTasks().getByName("updatePlugins"),
                                     project.getTasks().getByName("updateVersionsProps"));
