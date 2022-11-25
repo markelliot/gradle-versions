@@ -7,11 +7,25 @@ import com.markelliot.gradle.versions.api.ImmutableGradleUpdateRec;
 import com.markelliot.gradle.versions.api.ImmutableGradleUpdateReport;
 import java.util.Optional;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.Task;
+import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.GradleVersion;
 
 @Open
 public class CheckNewGradleVersionTask extends DefaultTask {
+
+    public CheckNewGradleVersionTask() {
+        // always stale
+        getOutputs()
+                .upToDateWhen(
+                        new Spec<Task>() {
+                            @Override
+                            public boolean isSatisfiedBy(Task task) {
+                                return false;
+                            }
+                        });
+    }
 
     @TaskAction
     public final void taskAction() {

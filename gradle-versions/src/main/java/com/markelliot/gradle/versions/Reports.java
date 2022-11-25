@@ -31,9 +31,7 @@ public final class Reports {
     }
 
     private static void writeReport(File projectBuildDir, String file, Object report) {
-        File reportDir = new File(projectBuildDir, REPORT_DIRNAME);
-        Preconditions.checkState(
-                reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
+        File reportDir = mkdirIfNotExist(projectBuildDir);
         File reportFile = new File(reportDir, file);
         String reportContent = YamlSerDe.serialize(report);
         writeContentToFile(reportFile.toPath(), reportContent);
@@ -61,19 +59,23 @@ public final class Reports {
     }
 
     public static void clearMarkdownReport(File rootProjectDir) {
-        File reportDir = new File(rootProjectDir, REPORT_DIRNAME);
-        Preconditions.checkState(
-                reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
-        try {
-            Files.deleteIfExists(new File(reportDir, "report.md").toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File reportDir = mkdirIfNotExist(rootProjectDir);
+        File report = new File(reportDir, "report.md");
+        if (report.exists()) {
+            System.out.println("Clearing existing markdown report");
+            Preconditions.checkState(report.delete(), "unable to delete report.md");
         }
     }
 
+    private static File mkdirIfNotExist(File baseDir) {
+        File reportDir = new File(baseDir, REPORT_DIRNAME);
+        Preconditions.checkState(
+                reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
+        return reportDir;
+    }
+
     public static void appendMarkdownReport(File rootProjectDir, String content) {
-        appendContentToFile(
-                rootProjectDir.toPath().resolve(Paths.get(REPORT_DIRNAME, "report.md")),
-                content + "\n");
+        File reportDir = mkdirIfNotExist(rootProjectDir);
+        appendContentToFile(new File(reportDir, "report.md").toPath(), content + "\n");
     }
 }
