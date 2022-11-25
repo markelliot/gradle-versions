@@ -47,7 +47,7 @@ public abstract class UpdatePluginsTask extends DefaultTask {
                                     .map(
                                             entry ->
                                                     String.format(
-                                                            " * `%s {-> %s}\n",
+                                                            " * `%s {-> %s}`\n",
                                                             entry.getKey(), entry.getValue()))
                                     .collect(Collectors.joining()));
         }
