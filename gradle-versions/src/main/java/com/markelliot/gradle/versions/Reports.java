@@ -62,6 +62,7 @@ public final class Reports {
         File reportDir = mkdirIfNotExist(rootProjectDir);
         File report = new File(reportDir, "report.md");
         if (report.exists()) {
+            System.out.println("Clearing existing markdown report");
             Preconditions.checkState(report.delete(), "unable to delete report.md");
         }
     }
