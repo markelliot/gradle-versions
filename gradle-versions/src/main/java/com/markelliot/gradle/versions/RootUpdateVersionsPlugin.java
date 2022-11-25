@@ -79,8 +79,9 @@ public final class RootUpdateVersionsPlugin implements Plugin<Project> {
                         .register(
                                 "checkNewGradleVersion",
                                 CheckNewGradleVersionTask.class,
-                                task -> task.setDescription(
-                                        "Checks for and reports on existence of a new Gradle version"));
+                                task ->
+                                        task.setDescription(
+                                                "Checks for and reports on existence of a new Gradle version"));
         project.getTasks().named("checkNewVersions").configure(task -> task.dependsOn(gradleTask));
 
         project.getTasks()
