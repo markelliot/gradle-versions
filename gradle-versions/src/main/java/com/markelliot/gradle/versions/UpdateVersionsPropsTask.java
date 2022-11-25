@@ -4,6 +4,7 @@ import com.markelliot.gradle.versions.api.UpdateReport;
 import com.markelliot.gradle.versions.api.YamlSerDe;
 import com.markelliot.gradle.versions.props.VersionsProps;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,23 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
 
         // update versions.props
         VersionsProps versionsProps = VersionsProps.from(versionPropsFile);
-        updateRecs.forEach(versionsProps::update);
+        List<VersionsProps.UpdatedLine> updates = new ArrayList<>();
+        updateRecs.forEach((k, v) -> versionsProps.update(k, v).ifPresent(updates::add));
         versionsProps.to(versionPropsFile);
+
+        // markdown output
+        Reports.appendMarkdownReport(
+                getProject().getBuildDir(),
+                "## Updated Dependencies\n"
+                        + updates.stream()
+                                .map(
+                                        u ->
+                                                String.format(
+                                                        " * `%s %s -> %s`\n",
+                                                        u.dependency(),
+                                                        u.oldVersion(),
+                                                        u.newVersion()))
+                                .collect(Collectors.joining()));
     }
 
     private Map<String, String> mergeDependencyUpdates(List<UpdateReport> reports) {

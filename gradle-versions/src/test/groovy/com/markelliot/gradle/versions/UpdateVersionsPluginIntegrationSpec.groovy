@@ -32,10 +32,13 @@ class UpdateVersionsPluginIntegrationSpec extends IntegrationSpec {
         """)
 
         then:
-        def result = runTasksSuccessfully('updateVersionsProps')
+        def result = runTasksSuccessfully('updateAll')
         result.wasExecuted('projectA:checkNewVersions')
 
         !versionsProps.text.contains("2.12.1")
+
+        file("build/com.markelliot.versions/report.md").text.matches(
+                /(?ms)## Updated Dependencies\n \* `com\.fasterxml\.jackson\.\*:\* 2\.12\.1 -> [^`]+`\n\n/)
 
         def buildResult = runTasksSuccessfully('build')
         !buildResult.wasExecuted(':checkNewVersions')

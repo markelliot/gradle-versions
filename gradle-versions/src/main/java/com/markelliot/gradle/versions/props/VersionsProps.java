@@ -40,16 +40,25 @@ public final class VersionsProps {
     private final List<Line> lines;
     private final FuzzyPatternResolver resolver;
 
+    @Value.Immutable
+    public interface UpdatedLine {
+        String dependency();
+
+        String oldVersion();
+
+        String newVersion();
+    }
+
     private VersionsProps(List<Line> lines, FuzzyPatternResolver resolver) {
         this.lines = lines;
         this.resolver = resolver;
     }
 
-    public void update(String identifier, String version) {
+    public Optional<UpdatedLine> update(String identifier, String version) {
         Optional<String> maybeMatch = resolver.patternFor(identifier);
         if (maybeMatch.isEmpty()) {
             System.out.println("No matching pattern for '" + identifier + "'");
-            return;
+            return Optional.empty();
         }
 
         String bestMatch = maybeMatch.get();
@@ -65,11 +74,18 @@ public final class VersionsProps {
                                     .from(versionLine)
                                     .version(version)
                                     .build());
-                    break;
+                    return Optional.of(
+                            ImmutableUpdatedLine.builder()
+                                    .dependency(bestMatch)
+                                    .oldVersion(versionLine.version())
+                                    .newVersion(version)
+                                    .build());
                 }
             }
             i++;
         }
+
+        return Optional.empty();
     }
 
     public String writeToString() {

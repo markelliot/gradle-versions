@@ -36,14 +36,44 @@ public final class Reports {
                 reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
         File reportFile = new File(reportDir, file);
         String reportContent = YamlSerDe.serialize(report);
+        writeContentToFile(reportFile.toPath(), reportContent);
+    }
+
+    private static void writeContentToFile(Path path, String reportContent) {
         try {
             Files.writeString(
-                    reportFile.toPath(),
+                    path,
                     reportContent,
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void appendContentToFile(Path path, String reportContent) {
+        try {
+            Files.writeString(
+                    path, reportContent, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void clearMarkdownReport(File rootProjectDir) {
+        File reportDir = new File(rootProjectDir, REPORT_DIRNAME);
+        Preconditions.checkState(
+                reportDir.exists() || reportDir.mkdirs(), "unable to make reportDir");
+        try {
+            Files.deleteIfExists(new File(reportDir, "report.md").toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void appendMarkdownReport(File rootProjectDir, String content) {
+        appendContentToFile(
+                rootProjectDir.toPath().resolve(Paths.get(REPORT_DIRNAME, "report.md")),
+                content + "\n");
     }
 }
