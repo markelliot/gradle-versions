@@ -48,6 +48,15 @@ public class UpdateGradleWrapperTask extends DefaultTask {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            Reports.appendMarkdownReport(
+                    getProject().getBuildDir(),
+                    "## Updated Gradle\n"
+                            + " * Gradle Wrapper `"
+                            + gur.gradle().currentVersion()
+                            + " -> "
+                            + gur.gradle().latestVersion()
+                            + "`\n");
         }
     }
 

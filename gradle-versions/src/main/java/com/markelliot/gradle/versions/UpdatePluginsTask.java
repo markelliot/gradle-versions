@@ -38,6 +38,19 @@ public abstract class UpdatePluginsTask extends DefaultTask {
                                 setNewPluginVersions(sourceFile, pluginUpdates);
                             }
                         });
+
+        if (!pluginUpdates.isEmpty()) {
+            Reports.appendMarkdownReport(
+                    getProject().getBuildDir(),
+                    "## Updated Gradle Plugins\n"
+                            + pluginUpdates.entrySet().stream()
+                                    .map(
+                                            entry ->
+                                                    String.format(
+                                                            " * `%s {-> %s}`\n",
+                                                            entry.getKey(), entry.getValue()))
+                                    .collect(Collectors.joining()));
+        }
     }
 
     private void setNewPluginVersions(File sourceFile, Map<String, String> pluginUpdates) {
