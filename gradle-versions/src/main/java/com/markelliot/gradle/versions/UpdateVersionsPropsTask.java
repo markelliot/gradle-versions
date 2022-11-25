@@ -4,10 +4,10 @@ import com.markelliot.gradle.versions.api.UpdateReport;
 import com.markelliot.gradle.versions.api.YamlSerDe;
 import com.markelliot.gradle.versions.props.VersionsProps;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -43,14 +43,14 @@ public abstract class UpdateVersionsPropsTask extends DefaultTask {
 
         // update versions.props
         VersionsProps versionsProps = VersionsProps.from(versionPropsFile);
-        List<VersionsProps.UpdatedLine> updates = new ArrayList<>();
+        Set<VersionsProps.UpdatedLine> updates = new LinkedHashSet<>();
         updateRecs.forEach((k, v) -> versionsProps.update(k, v).ifPresent(updates::add));
         versionsProps.to(versionPropsFile);
 
-        List<VersionsProps.UpdatedLine> filtered =
+        Set<VersionsProps.UpdatedLine> filtered =
                 updates.stream()
                         .filter(u -> !u.oldVersion().equals(u.newVersion()))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
 
         // markdown output
         if (!filtered.isEmpty()) {
