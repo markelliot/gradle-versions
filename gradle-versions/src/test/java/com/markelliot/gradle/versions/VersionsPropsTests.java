@@ -22,7 +22,6 @@ import com.google.common.base.Splitter;
 import com.markelliot.gradle.versions.props.VersionsProps;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
 final class VersionsPropsTests {
@@ -49,9 +48,7 @@ final class VersionsPropsTests {
 
     @Test
     public void testNoUpdateForSameValue() {
-        VersionsProps props =
-                VersionsProps.from(
-                        List.of("com.foo.bar:qux = 1.2"));
+        VersionsProps props = VersionsProps.from(List.of("com.foo.bar:qux = 1.2"));
 
         Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "1.2");
         assertThat(updates).isEmpty();
