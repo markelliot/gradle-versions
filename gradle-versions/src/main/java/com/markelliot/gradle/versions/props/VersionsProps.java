@@ -67,6 +67,10 @@ public final class VersionsProps {
             if (line.type() == LineType.Version) {
                 VersionLine versionLine = (VersionLine) line;
                 if (versionLine.identifier().equals(bestMatch)) {
+                    if (versionLine.version().equals(version)) {
+                        // found best match but version is already what we expect
+                        return Optional.empty();
+                    }
                     System.out.printf("Setting %s = %s\n", bestMatch, version);
                     lines.set(
                             i,

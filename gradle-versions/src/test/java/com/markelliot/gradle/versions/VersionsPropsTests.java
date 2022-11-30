@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.google.common.base.Splitter;
 import com.markelliot.gradle.versions.props.VersionsProps;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 final class VersionsPropsTests {
@@ -43,5 +44,13 @@ final class VersionsPropsTests {
         assertThat(lines)
                 .contains("org.slf4j:* = 1.7.24")
                 .contains("org.slf4j:slf4j-api = 1.7.26 # bar");
+    }
+
+    @Test
+    public void testNoUpdateForSameValue() {
+        VersionsProps props = VersionsProps.from(List.of("com.foo.bar:qux = 1.2"));
+
+        Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "1.2");
+        assertThat(updates).isEmpty();
     }
 }
