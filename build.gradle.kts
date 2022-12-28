@@ -72,6 +72,11 @@ allprojects {
         }
 
         the<JavaPluginExtension>().sourceCompatibility = JavaVersion.VERSION_11
+        
+        tasks.withType<Javadoc> {
+            (options as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
+            options.encoding = "UTF-8"
+        }
 
         tasks["check"].dependsOn("spotlessCheck")
     }
