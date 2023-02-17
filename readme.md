@@ -10,7 +10,7 @@ Apply this plugin using the standard Gradle plugin block:
 ```gradle
 plugins {
    // ...
-   id "com.markelliot.versions" version "0.1.11"
+   id "com.markelliot.versions" version "0.42.0"
 }
 ```
 
