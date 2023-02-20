@@ -33,8 +33,8 @@ tasks.test {
 }
 
 gradlePlugin {
-    website = "https://github.com/markelliot/gradle-versions"
-    vcsUrl = "https://github.com/markelliot/gradle-versions"
+    website.set("https://github.com/markelliot/gradle-versions")
+    vcsUrl.set("https://github.com/markelliot/gradle-versions")
     
     plugins {
         create("versions") {
