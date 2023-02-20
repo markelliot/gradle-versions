@@ -31,6 +31,8 @@ class UpdateVersionsPluginIntegrationSpec extends IntegrationSpec {
         }
         """)
 
+        System.setProperty("ignoreDeprecations", "true")
+
         then:
         def result = runTasksSuccessfully('updateAll')
         result.wasExecuted('projectA:checkNewVersions')
