@@ -32,13 +32,10 @@ tasks.test {
     }
 }
 
-pluginBundle {
+gradlePlugin {
     website = "https://github.com/markelliot/gradle-versions"
     vcsUrl = "https://github.com/markelliot/gradle-versions"
-    tags = listOf("versions")
-}
-
-gradlePlugin {
+    
     plugins {
         create("versions") {
             id = "com.markelliot.versions"
