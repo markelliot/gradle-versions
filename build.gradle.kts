@@ -3,10 +3,10 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     idea
-    id("com.diffplug.spotless") version "6.23.3"
-    id("com.google.cloud.tools.jib") version "3.4.0" apply false
+    id("com.diffplug.spotless") version "6.25.0"
+    id("com.google.cloud.tools.jib") version "3.4.2" apply false
     id("com.markelliot.versions") version "0.43.0"
-    id("com.palantir.consistent-versions") version "2.17.0"
+    id("com.palantir.consistent-versions") version "2.22.0"
     id("net.ltgt.errorprone") version "3.1.0" apply false
     id("org.inferred.processors") version "3.7.0" apply false
 }
@@ -67,7 +67,7 @@ allprojects {
 
         spotless {
             java {
-                googleJavaFormat("1.10.0").aosp()
+                googleJavaFormat("1.22.0").aosp()
             }
         }
 
