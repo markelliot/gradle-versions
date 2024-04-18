@@ -2,7 +2,7 @@ name: Update Deps
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 0/6 * * *'
+    - cron: "0 0/6 * * *"
 
 jobs:
   check:
@@ -20,8 +20,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'zulu'
+          java-version: "21"
+          distribution: "zulu"
       - uses: markelliot/update-gradle-deps@v1
         with:
           push-to-repo-token: ${{ steps.token.outputs.token }}
