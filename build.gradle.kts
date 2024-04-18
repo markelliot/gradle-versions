@@ -67,7 +67,7 @@ allprojects {
 
         spotless {
             java {
-                googleJavaFormat("1.10.0").aosp()
+                googleJavaFormat("1.22.0").aosp()
             }
         }
 
