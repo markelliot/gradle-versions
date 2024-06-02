@@ -7,7 +7,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.4.3" apply false
     id("com.markelliot.versions") version "0.43.0"
     id("com.palantir.consistent-versions") version "2.22.0"
-    id("net.ltgt.errorprone") version "3.1.0" apply false
+    id("net.ltgt.errorprone") version "4.0.0" apply false
     id("org.inferred.processors") version "3.7.0" apply false
 }
 
