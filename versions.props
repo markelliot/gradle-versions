@@ -1,6 +1,6 @@
 com.fasterxml.jackson.core:jackson-databind = 2.18.0
 com.fasterxml.jackson.*:* = 2.18.0
-com.google.errorprone:error_prone_core = 2.32.0
+com.google.errorprone:error_prone_core = 2.33.0
 com.google.guava:guava = 33.3.1-jre
 com.jakewharton.nopen:* = 1.0.1
 org.assertj:assertj-core = 3.26.3
