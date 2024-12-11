@@ -20,7 +20,7 @@ org.yaml:snakeyaml:2.3 (1 constraints: 3d178c10)
 
 [Test dependencies]
 cglib:cglib-nodep:3.2.2 (1 constraints: 490ded24)
-com.netflix.nebula:nebula-test:10.6.1 (1 constraints: 3a053a3b)
+com.netflix.nebula:nebula-test:10.6.2 (1 constraints: 3b053b3b)
 junit:junit:4.13.2 (1 constraints: 1b0e1d4c)
 net.bytebuddy:byte-buddy:1.14.18 (1 constraints: 850bccea)
 org.assertj:assertj-core:3.26.3 (1 constraints: 40054e3b)
