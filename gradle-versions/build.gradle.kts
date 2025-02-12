@@ -45,6 +45,7 @@ gradlePlugin {
                 "plugin blocks."
             implementationClass = "com.markelliot.gradle.versions.RootUpdateVersionsPlugin"
             version = "${project.version}"
+            tags = listOf("versions")
         }
     }
 }
