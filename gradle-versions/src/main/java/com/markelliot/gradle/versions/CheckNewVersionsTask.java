@@ -178,7 +178,8 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
     }
 
     private boolean containsDisallowedQualifier(String version) {
-        return DISALLOWED_QUALIFIERS.stream().anyMatch(version::contains);
+        String lowerCaseVersion = version.toLowerCase();
+        return DISALLOWED_QUALIFIERS.stream().anyMatch(lowerCaseVersion::contains);
     }
 
     private Configuration getResolvableCopy(Configuration config) {
