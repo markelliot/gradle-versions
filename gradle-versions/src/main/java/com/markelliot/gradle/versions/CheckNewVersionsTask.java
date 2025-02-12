@@ -40,7 +40,7 @@ import org.gradle.api.tasks.TaskAction;
 public abstract class CheckNewVersionsTask extends DefaultTask {
     // TODO(markelliot): make these configurable
     private static final Set<String> DISALLOWED_QUALIFIERS =
-            Set.of("-alpha", "-beta", "-ea", "-rc");
+            Set.of("-alpha", "-beta", "-ea", "-rc", "-m");
 
     @OutputFile
     abstract RegularFileProperty getReportFile();
