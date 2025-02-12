@@ -52,13 +52,32 @@ gradlePlugin {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = URI.create("https://maven.pkg.github.com/markelliot/gradle-versions")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            suppressPomMetadataWarningsFor("javadocElements")
+            pom {
+                name.set("gradle-versions")
+                description.set("Gradle plugin that helps with updating Gradle dependencies.")
+                url.set("https://github.com/markelliot/gradle-versions")
+                licenses {
+                    license {
+                        name.set("Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("markelliot")
+                        name.set("Mark Elliot")
+                        email.set("markelliot@users.noreply.github.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:https://github.com/markelliot/gradle-versions.git")
+                    developerConnection.set("scm:git:https://github.com/markelliot/gradle-versions.git")
+                    url.set("https://github.com/markelliot/gradle-versions")
+                }
             }
         }
     }
