@@ -19,10 +19,6 @@ task("printVersion") {
     }
 }
 
-tasks.updateGradleWrapper {
-    enabled = false
-}
-
 allprojects {
     group = "com.markelliot.gradle.versions"
     version = rootProject.version
