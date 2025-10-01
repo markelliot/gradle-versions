@@ -2,7 +2,7 @@
 
 com.fasterxml.jackson:jackson-bom:2.20.0 (6 constraints: 427e3f6c)
 
-com.fasterxml.jackson.core:jackson-annotations:2.20 (4 constraints: c64ca5ee)
+com.fasterxml.jackson.core:jackson-annotations:2.20 (5 constraints: 9d517830)
 
 com.fasterxml.jackson.core:jackson-core:2.20.0 (6 constraints: 007c004a)
 
