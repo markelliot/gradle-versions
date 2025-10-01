@@ -70,7 +70,7 @@ allprojects {
             options.errorprone.disable("UnusedVariable")
         }
 
-        the<JavaPluginExtension>().sourceCompatibility = JavaVersion.VERSION_11
+        the<JavaPluginExtension>().sourceCompatibility = JavaVersion.VERSION_17
 
         tasks.withType<Javadoc> {
             (options as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
