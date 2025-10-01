@@ -30,7 +30,7 @@ com.jakewharton.nopen:nopen-annotations:1.0.1 (1 constraints: 0405f135)
 
 org.immutables:value:2.11.4 (1 constraints: 3a05363b)
 
-org.jspecify:jspecify:1.0.0 (1 constraints: 130ae0b4)
+org.jspecify:jspecify:1.0.0 (2 constraints: 55179762)
 
 org.yaml:snakeyaml:2.4 (1 constraints: 3e178d10)
 
@@ -40,21 +40,13 @@ org.yaml:snakeyaml:2.4 (1 constraints: 3e178d10)
 
 cglib:cglib-nodep:3.2.2 (1 constraints: 490ded24)
 
-com.netflix.nebula:nebula-test:10.6.2 (1 constraints: 3b053b3b)
-
-junit:junit:4.13.2 (1 constraints: 1b0e1d4c)
+com.netflix.nebula:nebula-test:11.2.0 (1 constraints: 3605323b)
 
 net.bytebuddy:byte-buddy:1.17.7 (1 constraints: 560b56df)
 
-org.assertj:assertj-core:3.27.6 (1 constraints: 4405543b)
+org.assertj:assertj-core:3.27.6 (2 constraints: c4125740)
 
-org.codehaus.groovy:groovy:3.0.12 (2 constraints: 781b1f9d)
-
-org.hamcrest:hamcrest:2.2 (1 constraints: d20cdc04)
-
-org.hamcrest:hamcrest-core:1.3 (1 constraints: cc05fe3f)
-
-org.junit:junit-bom:5.14.0 (8 constraints: 068344a7)
+org.junit:junit-bom:5.14.0 (7 constraints: cd75cd0a)
 
 org.junit.jupiter:junit-jupiter:5.14.0 (2 constraints: 7c0ecc71)
 
@@ -68,12 +60,8 @@ org.junit.platform:junit-platform-commons:1.14.0 (3 constraints: 6f2a2290)
 
 org.junit.platform:junit-platform-engine:1.14.0 (3 constraints: 872c957f)
 
-org.junit.platform:junit-platform-launcher:1.14.0 (1 constraints: 3d09a99e)
+org.junit.platform:junit-platform-launcher:1.14.0 (2 constraints: b716fa57)
 
 org.objenesis:objenesis:2.4 (1 constraints: ea0c8c0a)
 
 org.opentest4j:opentest4j:1.3.0 (2 constraints: cf209249)
-
-org.spockframework:spock-core:2.3-groovy-3.0 (2 constraints: 922109a6)
-
-org.spockframework:spock-junit4:2.3-groovy-3.0 (1 constraints: 7a1000b0)
