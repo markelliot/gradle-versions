@@ -97,4 +97,3 @@ final class VersionsPropsTests {
         assertThat(lines).contains("com.foo.bar:qux = 2.0 # some other comment");
     }
 }
-
