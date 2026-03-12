@@ -44,9 +44,9 @@ com.netflix.nebula:nebula-test:10.6.2 (1 constraints: 3b053b3b)
 
 junit:junit:4.13.2 (1 constraints: 1b0e1d4c)
 
-net.bytebuddy:byte-buddy:1.17.7 (1 constraints: 560b56df)
+net.bytebuddy:byte-buddy:1.18.3 (1 constraints: 530b55df)
 
-org.assertj:assertj-core:3.27.6 (1 constraints: 4405543b)
+org.assertj:assertj-core:3.27.7 (1 constraints: 4505553b)
 
 org.codehaus.groovy:groovy:3.0.12 (2 constraints: 781b1f9d)
 
