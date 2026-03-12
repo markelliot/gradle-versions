@@ -31,6 +31,11 @@ This plugin restricts updates such that:
 * Recommended versions do not contain `alpha` or `beta` in the version string.
 * Recommended versions may have empty status metadata or the status must be `release`
 
+To skip updates for a specific dependency, add `versions:ignore` to the line comment in `versions.props`:
+```properties
+com.company:foo = 1.2.3 # versions:ignore
+```
+
 License
 -------
 This repository is subject to the [Apache 2.0 License](LICENSE).
