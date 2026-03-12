@@ -24,6 +24,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -54,6 +55,8 @@ public final class VersionsProps {
         this.resolver = resolver;
     }
 
+    private static final String IGNORE_MARKER = "versions:ignore";
+
     public Optional<UpdatedLine> update(String identifier, String version) {
         Optional<String> maybeMatch = resolver.patternFor(identifier);
         if (maybeMatch.isEmpty()) {
@@ -67,6 +70,10 @@ public final class VersionsProps {
             if (line.type() == LineType.Version) {
                 VersionLine versionLine = (VersionLine) line;
                 if (versionLine.identifier().equals(bestMatch)) {
+                    if (shouldIgnore(versionLine)) {
+                        System.out.printf("Skipping %s (marked with versions:ignore)\n", bestMatch);
+                        return Optional.empty();
+                    }
                     if (versionLine.version().equals(version)) {
                         // found best match but version is already what we expect
                         return Optional.empty();
@@ -90,6 +97,12 @@ public final class VersionsProps {
         }
 
         return Optional.empty();
+    }
+
+    private static boolean shouldIgnore(VersionLine line) {
+        return line.comment()
+                .map(comment -> comment.toLowerCase(Locale.ROOT).contains(IGNORE_MARKER))
+                .orElse(false);
     }
 
     public String writeToString() {

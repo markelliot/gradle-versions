@@ -53,4 +53,47 @@ final class VersionsPropsTests {
         Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "1.2");
         assertThat(updates).isEmpty();
     }
+
+    @Test
+    public void testIgnoreMarkerPreventsUpdate() {
+        VersionsProps props =
+                VersionsProps.from(List.of("com.foo.bar:qux = 1.2 # versions:ignore"));
+
+        Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "2.0");
+        assertThat(updates).isEmpty();
+
+        List<String> lines = Splitter.on('\n').splitToList(props.writeToString());
+        assertThat(lines).contains("com.foo.bar:qux = 1.2 # versions:ignore");
+    }
+
+    @Test
+    public void testIgnoreMarkerWithOtherCommentText() {
+        VersionsProps props =
+                VersionsProps.from(
+                        List.of("com.foo.bar:qux = 1.2 # using beta, versions:ignore for now"));
+
+        Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "2.0");
+        assertThat(updates).isEmpty();
+    }
+
+    @Test
+    public void testIgnoreMarkerCaseInsensitive() {
+        VersionsProps props =
+                VersionsProps.from(List.of("com.foo.bar:qux = 1.2 # VERSIONS:IGNORE"));
+
+        Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "2.0");
+        assertThat(updates).isEmpty();
+    }
+
+    @Test
+    public void testWithoutIgnoreMarkerStillUpdates() {
+        VersionsProps props =
+                VersionsProps.from(List.of("com.foo.bar:qux = 1.2 # some other comment"));
+
+        Optional<VersionsProps.UpdatedLine> updates = props.update("com.foo.bar:qux", "2.0");
+        assertThat(updates).isPresent();
+
+        List<String> lines = Splitter.on('\n').splitToList(props.writeToString());
+        assertThat(lines).contains("com.foo.bar:qux = 2.0 # some other comment");
+    }
 }
