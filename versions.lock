@@ -28,7 +28,7 @@ com.google.j2objc:j2objc-annotations:3.1 (1 constraints: b809f1a0)
 
 com.jakewharton.nopen:nopen-annotations:1.0.1 (1 constraints: 0405f135)
 
-org.immutables:value:2.11.6 (1 constraints: 3c05383b)
+org.immutables:value:2.12.1 (1 constraints: 3805363b)
 
 org.jspecify:jspecify:1.0.0 (1 constraints: 130ae0b4)
 
