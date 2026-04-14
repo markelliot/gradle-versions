@@ -16,11 +16,11 @@ com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.21.2 (2 constraints: ef13
 
 com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.2 (2 constraints: ef135282)
 
-com.google.errorprone:error_prone_annotations:2.41.0 (1 constraints: 490a3ebf)
+com.google.errorprone:error_prone_annotations:2.47.0 (1 constraints: 4f0a50bf)
 
 com.google.guava:failureaccess:1.0.3 (1 constraints: 160ae3b4)
 
-com.google.guava:guava:33.5.0-jre (2 constraints: 5b1e4d3f)
+com.google.guava:guava:33.6.0-jre (2 constraints: 5c1e953f)
 
 com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava (1 constraints: bd17c918)
 
