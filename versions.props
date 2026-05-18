@@ -7,4 +7,4 @@ com.jakewharton.nopen:* = 1.0.1
 org.assertj:assertj-core = 3.27.7
 org.immutables:* = 2.12.2
 org.junit.jupiter:junit-jupiter = 6.0.3
-com.netflix.nebula:nebula-test = 10.6.2
+com.netflix.nebula:nebula-test = 12.3.0
