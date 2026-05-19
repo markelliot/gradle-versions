@@ -5,5 +5,12 @@
   ],
   "automerge": true,
   "automergeType": "pr",
-  "automergeStrategy": "squash"
+  "automergeStrategy": "squash",
+  "packageRules": [
+    {
+      "description": "nebula-test 12 requires Gradle 9; staying on 11.x until the Gradle upgrade lands",
+      "matchPackageNames": ["com.netflix.nebula:nebula-test"],
+      "allowedVersions": "<12"
+    }
+  ]
 }
