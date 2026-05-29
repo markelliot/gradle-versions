@@ -1,20 +1,20 @@
 # Run ./gradlew writeVersionsLocks to regenerate this file. Blank lines are to minimize merge conflicts.
 
-com.fasterxml.jackson:jackson-bom:2.21.3 (6 constraints: 5a7e1b7b)
+com.fasterxml.jackson:jackson-bom:2.21.4 (6 constraints: 607ecf7e)
 
 com.fasterxml.jackson.core:jackson-annotations:2.21 (5 constraints: a251bb32)
 
-com.fasterxml.jackson.core:jackson-core:2.21.3 (6 constraints: 187cdc58)
+com.fasterxml.jackson.core:jackson-core:2.21.4 (6 constraints: 1e7c905c)
 
-com.fasterxml.jackson.core:jackson-databind:2.21.3 (6 constraints: ca6efc05)
+com.fasterxml.jackson.core:jackson-databind:2.21.4 (6 constraints: d06ea609)
 
-com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.21.3 (2 constraints: f1137f82)
+com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.21.4 (2 constraints: f313ac82)
 
-com.fasterxml.jackson.datatype:jackson-datatype-guava:2.21.3 (2 constraints: f1137f82)
+com.fasterxml.jackson.datatype:jackson-datatype-guava:2.21.4 (2 constraints: f313ac82)
 
-com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.21.3 (2 constraints: f1137f82)
+com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.21.4 (2 constraints: f313ac82)
 
-com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.3 (2 constraints: f1137f82)
+com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.4 (2 constraints: f313ac82)
 
 com.google.errorprone:error_prone_annotations:2.47.0 (1 constraints: 4f0a50bf)
 
