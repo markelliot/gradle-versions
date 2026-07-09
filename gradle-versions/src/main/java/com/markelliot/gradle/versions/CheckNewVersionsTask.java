@@ -65,6 +65,7 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
                         // make safe for use with gradle-consistent-versions
                         .filter(config -> !config.getName().startsWith("consistentVersions"))
                         .filter(config -> !config.getName().equals("unifiedClasspath"))
+                        .filter(Configuration::isCanBeResolved)
                         .collect(
                                 Collectors.toMap(
                                         Configuration::getName, this::getRecsForConfiguration));
@@ -192,7 +193,7 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
         LenientConfiguration lenientConfig =
                 config.getResolvedConfiguration().getLenientConfiguration();
         Set<ResolvedDependency> moduleDeps =
-                lenientConfig.getFirstLevelModuleDependencies(Specs.SATISFIES_ALL);
+                lenientConfig.getFirstLevelModuleDependencies();
         Map<String, ResolvedDependency> resolvedDeps = new HashMap<>();
         moduleDeps.forEach(
                 dep -> resolvedDeps.put(dep.getModuleGroup() + ":" + dep.getModuleName(), dep));

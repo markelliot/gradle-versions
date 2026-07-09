@@ -7,7 +7,6 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.5.3" apply false
     id("com.palantir.consistent-versions") version "3.16.0"
     id("net.ltgt.errorprone") version "5.1.0" apply false
-    id("org.inferred.processors") version "3.7.0" apply false
 }
 
 version = "git describe --tags".runCommand().trim() +
@@ -52,7 +51,6 @@ allprojects {
 
     plugins.withType<JavaLibraryPlugin> {
         apply(plugin = "net.ltgt.errorprone")
-        apply(plugin = "org.inferred.processors")
 
         dependencies {
             "errorprone"("com.google.errorprone:error_prone_core")
