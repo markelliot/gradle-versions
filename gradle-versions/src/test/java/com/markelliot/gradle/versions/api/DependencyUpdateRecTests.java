@@ -9,7 +9,11 @@ final class DependencyUpdateRecTests {
     void test_handleEmptyCurrentVersion() {
         DependencyUpdateRec rec =
                 YamlSerDe.deserialize(
-                        "group: group\n" + "name: name\n" + "latestVersion: latestVersion\n",
+                        """
+                        group: group
+                        name: name
+                        latestVersion: latestVersion
+                        """,
                         DependencyUpdateRec.class);
 
         assertThat(rec.currentVersion()).isNullOrEmpty();

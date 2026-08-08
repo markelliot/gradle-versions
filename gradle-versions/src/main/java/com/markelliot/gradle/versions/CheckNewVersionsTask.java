@@ -22,6 +22,7 @@ import com.markelliot.gradle.versions.api.UpdateReport;
 import com.markelliot.gradle.versions.api.YamlSerDe;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +34,6 @@ import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.LenientConfiguration;
 import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.specs.Specs;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
@@ -65,6 +65,7 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
                         // make safe for use with gradle-consistent-versions
                         .filter(config -> !config.getName().startsWith("consistentVersions"))
                         .filter(config -> !config.getName().equals("unifiedClasspath"))
+                        .filter(Configuration::isCanBeResolved)
                         .collect(
                                 Collectors.toMap(
                                         Configuration::getName, this::getRecsForConfiguration));
@@ -178,7 +179,7 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
     }
 
     private boolean containsDisallowedQualifier(String version) {
-        String lowerCaseVersion = version.toLowerCase();
+        String lowerCaseVersion = version.toLowerCase(Locale.ROOT);
         return DISALLOWED_QUALIFIERS.stream().anyMatch(lowerCaseVersion::contains);
     }
 
@@ -191,8 +192,7 @@ public abstract class CheckNewVersionsTask extends DefaultTask {
     private Map<String, ResolvedDependency> getResolvedVersions(Configuration config) {
         LenientConfiguration lenientConfig =
                 config.getResolvedConfiguration().getLenientConfiguration();
-        Set<ResolvedDependency> moduleDeps =
-                lenientConfig.getFirstLevelModuleDependencies(Specs.SATISFIES_ALL);
+        Set<ResolvedDependency> moduleDeps = lenientConfig.getFirstLevelModuleDependencies();
         Map<String, ResolvedDependency> resolvedDeps = new HashMap<>();
         moduleDeps.forEach(
                 dep -> resolvedDeps.put(dep.getModuleGroup() + ":" + dep.getModuleName(), dep));
