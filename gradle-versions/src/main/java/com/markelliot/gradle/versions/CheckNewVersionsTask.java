@@ -39,8 +39,12 @@ import org.gradle.api.tasks.TaskAction;
 
 public abstract class CheckNewVersionsTask extends DefaultTask {
     // TODO(markelliot): make these configurable
+    private static final Set<String> DISALLOWED_QUALIFIER_SUFFIXES =
+            Set.of("alpha", "alpha1", "alpha2", "beta", "ea", "rc", "m");
     private static final Set<String> DISALLOWED_QUALIFIERS =
-            Set.of("-alpha", "-alpha1", "-alpha2", "-beta", "-ea", "-rc", "-m");
+            DISALLOWED_QUALIFIER_SUFFIXES.stream()
+                    .flatMap(suffix -> Stream.of("-" + suffix, "." + suffix))
+                    .collect(Collectors.toUnmodifiableSet());
 
     @OutputFile
     abstract RegularFileProperty getReportFile();
